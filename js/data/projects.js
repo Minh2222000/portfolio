@@ -247,7 +247,18 @@ window.PF.projects = [
       { src: "assets/img/work-vinatex-app-3.webp", w: 900, h: 1600 },
       { src: "assets/img/work-vinatex-app-4.webp", w: 900, h: 1600 },
       { src: "assets/img/work-vinatex-app-5.webp", w: 900, h: 1600 },
-      { src: "assets/img/work-vinatex-app-6.webp", w: 900, h: 1600 }
+      { src: "assets/img/work-vinatex-app-6.webp", w: 900, h: 1600 },
+      /* Mười frame app Android NGUYÊN BẢN (375 px, xuất 3x) từ page "Mobile - Android" của file Figma Vinatex */
+      { src: "assets/img/work-vinatex-android-splash.webp",      w: 1125, h: 2436 },
+      { src: "assets/img/work-vinatex-android-login.webp",       w: 1125, h: 2436 },
+      { src: "assets/img/work-vinatex-android-home.webp",        w: 1125, h: 2754 },
+      { src: "assets/img/work-vinatex-android-report-list.webp", w: 1125, h: 2436 },
+      { src: "assets/img/work-vinatex-android-report-detail.webp", w: 1125, h: 3696 },
+      { src: "assets/img/work-vinatex-android-report-form.webp", w: 1125, h: 3027 },
+      { src: "assets/img/work-vinatex-android-reward.webp",      w: 1125, h: 2436 },
+      { src: "assets/img/work-vinatex-android-rep-info.webp",    w: 1125, h: 2520 },
+      { src: "assets/img/work-vinatex-android-account.webp",     w: 1125, h: 3849 },
+      { src: "assets/img/work-vinatex-android-profile.webp",     w: 1125, h: 2436 }
     ],
     live: "",
     summary: {
@@ -1193,19 +1204,21 @@ window.PF.projects = [
     title: "422 — Đề án Chuyển đổi số trong hoạt động tố tụng hình sự và thi hành án hình sự (C01 – Bộ Công an)",
     role: { vi: "Supervisor Project Manager / Lead Team Design", en: "Supervisor Project Manager / Lead Team Design" },
     stack: ["Project Management", "UI/UX Design", "Digital transformation"],
-    /* Nguyên một frame màn hình từ file Figma dự án 422 (giao diện tối, rộng 1920) */
+    /* Ảnh chụp màn hình từ bản demo HTML "Hệ thống điều phối v1.4" của dự án 422 (giao diện tối, rộng 1920) */
     gallery: [
-      { src: "assets/img/work-du-an-422-fig-dashboard.webp",          w: 1920, h: 1453 },
-      { src: "assets/img/work-du-an-422-fig-giao-dich.webp",          w: 1920, h: 1080 },
+      { src: "assets/img/work-du-an-422-fig-login.webp",              w: 1920, h: 1080 },
+      { src: "assets/img/work-du-an-422-fig-system-select.webp",      w: 1920, h: 1080 },
+      { src: "assets/img/work-du-an-422-fig-dashboard.webp",          w: 1920, h: 1450 },
+      { src: "assets/img/work-du-an-422-fig-giao-dich.webp",          w: 1920, h: 1101 },
       { src: "assets/img/work-du-an-422-fig-ho-so-list.webp",         w: 1920, h: 1080 },
-      { src: "assets/img/work-du-an-422-fig-ho-so-detail.webp",       w: 1920, h: 1668 },
+      { src: "assets/img/work-du-an-422-fig-ho-so-detail.webp",       w: 1920, h: 1700 },
       { src: "assets/img/work-du-an-422-fig-advanced-search.webp",    w: 1920, h: 1080 },
       { src: "assets/img/work-du-an-422-fig-compare-dialog.webp",     w: 1920, h: 1080 },
-      { src: "assets/img/work-du-an-422-fig-alert-detail.webp",       w: 1920, h: 1558 },
-      { src: "assets/img/work-du-an-422-fig-alert-list.webp",         w: 1920, h: 1080 },
-      { src: "assets/img/work-du-an-422-fig-catalog.webp",            w: 1920, h: 1089 },
-      { src: "assets/img/work-du-an-422-fig-transaction-detail.webp", w: 1920, h: 1080 },
-      { src: "assets/img/work-du-an-422-fig-reconcile.webp",          w: 1920, h: 1255 },
+      { src: "assets/img/work-du-an-422-fig-alert-detail.webp",       w: 1920, h: 1554 },
+      { src: "assets/img/work-du-an-422-fig-alert-list.webp",         w: 1920, h: 1107 },
+      { src: "assets/img/work-du-an-422-fig-catalog.webp",            w: 1920, h: 1098 },
+      { src: "assets/img/work-du-an-422-fig-transaction-detail.webp", w: 1920, h: 1101 },
+      { src: "assets/img/work-du-an-422-fig-reconcile.webp",          w: 1920, h: 1259 },
       { src: "assets/img/work-du-an-422-fig-user-detail.webp",        w: 1920, h: 1080 }
     ],
     live: "",

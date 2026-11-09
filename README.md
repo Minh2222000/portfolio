@@ -35,11 +35,12 @@ Không phải sửa HTML để đổi chữ. Mỗi phần tử trên trang mang 
 1. **Tên và giới thiệu** — `js/data/i18n.js`, các khoá `hero.*` và `about.*`
 2. **Địa chỉ thư** — xuất hiện ở hai chỗ trong `index.html`: liên kết `mailto:`
    và khối JSON-LD trong `<head>`
-3. **Liên kết mạng xã hội** — `index.html`, khối `.contact__socials`, hiện đang
-   trỏ tới trang chủ GitHub / LinkedIn / Zalo
-4. **Ảnh** — `assets/img/*.svg` đang là ảnh tạm tự sinh. Thay bằng ảnh chụp
-   thật (`.jpg` hoặc `.webp`), rồi sửa đường dẫn `poster` trong
-   `js/data/projects.js` và `src` của `.portrait img` trong `index.html`
+3. **Liên kết mạng xã hội** — đã bỏ khỏi mục Liên hệ (chỉ còn email). Muốn thêm
+   lại thì dựng khối `.contact__socials` (CSS còn trong `css/sections.css`)
+4. **Ảnh** — ảnh chân dung đã là ảnh thật (`assets/img/portrait.webp`, tỉ lệ 4:5,
+   800×1000). Các ảnh `assets/img/*.svg` còn lại là ảnh tạm tự sinh: thay bằng ảnh
+   chụp thật (`.jpg` hoặc `.webp`), rồi sửa đường dẫn `poster` trong
+   `js/data/projects.js`
 5. **Năm ở chân trang** — `index.html` và `project.html`, dòng `© 2026`
 
 ### Thêm một dự án mới
