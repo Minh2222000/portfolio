@@ -159,6 +159,10 @@
     var shots = project.gallery;
 
     if (!shots || !shots.length) {
+      /* Dự án chưa có ảnh (không gallery, không poster): gỡ hẳn khung ảnh, đừng
+         để lại một ô trống hay ảnh vỡ. Có ảnh thật thì khai poster/gallery là
+         khung tự quay lại. */
+      if (!project.poster) { fig.remove(); return; }
       var one = fig.querySelector("img");
       if (one) {
         one.src = project.poster;
@@ -209,6 +213,12 @@
          tới. Bộ ảnh mockup nặng hơn ảnh chụp giao diện thường khá nhiều. */
       img.loading = i === 0 ? "eager" : "lazy";   /* ảnh trên cùng, không phải ảnh dẫn */
       img.decoding = "async";
+      /* Kích thước thật (nếu dữ liệu khai `w`, `h`): bố cục dải ngang biết bề
+         rộng mỗi ảnh ngay từ đầu nên không nhảy khi ảnh tải xong. */
+      if (typeof entry === "object" && entry.w && entry.h) {
+        img.setAttribute("width", String(entry.w));
+        img.setAttribute("height", String(entry.h));
+      }
 
       item.appendChild(img);
       wrap.appendChild(item);
@@ -275,6 +285,13 @@
     renderLive();
     renderFigma();
     renderNext();
+
+    /* Bố cục điện ảnh: mặc định cho MỌI dự án; dự án nào cần giữ bố cục cũ thì
+       khai `cinematic: false` trong projects.js.
+       Phải chạy TRƯỚC localise() để chữ động rơi vào đúng chỗ mới, và trước
+       reveal.js để các khối mới được quét data-reveal. Gỡ: xoá khối này. */
+    if (project.cinematic !== false && PF.modules.caseFx) PF.modules.caseFx.init(project);
+
     localise();
 
     document.addEventListener("pf:lang", localise);

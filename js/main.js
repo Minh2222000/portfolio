@@ -33,6 +33,7 @@
     "cursor",
     "nav",
     "hero",
+    "heroFx",
     "marquee",
     "reveal",
     "contact",

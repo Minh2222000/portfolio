@@ -1,0 +1,121 @@
+/* ==========================================================================
+   hero-fx.css — hiệu ứng "wow" cho hero. File tách riêng để gỡ nhanh:
+   xoá thẻ <link> + file này + thẻ <script> hero-fx.js + file đó là sạch.
+
+   Ba phần: chữ cái của tên phản ứng theo con trỏ, đèn pha theo chuột,
+   và dòng số liệu dưới hai nút. Không đụng tới cỡ chữ, bề rộng chữ hay
+   letter-spacing — chỉ transform và màu — nên tên không bao giờ tràn ngang.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Chữ cái của tên (JS tách ra, chỉ trên máy có chuột và không giảm chuyển động)
+   -------------------------------------------------------------------------- */
+.hfx-char {
+  display: inline-block;
+  transform-origin: 50% 90%;
+}
+/* Mỗi chữ có biến --p (0 → 1) = độ gần con trỏ, JS cập nhật. Màu pha theo
+   --p từ màu gốc sang --accent, nên tự đúng ở cả hai giao diện. */
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  .hfx-char {
+    color: color-mix(in srgb, var(--accent) calc(var(--p, 0) * 100%), var(--fg));
+  }
+  /* MINH là chữ viền: --p chính là độ tô đầy của ruột chữ */
+  .hero__outline .hfx-char {
+    color: color-mix(in srgb, var(--accent) calc(var(--p, 0) * 100%), transparent);
+    -webkit-text-stroke-color: color-mix(in srgb, var(--accent) calc(var(--p, 0) * 100%), var(--fg));
+  }
+}
+/* Chỉ báo trình duyệt dựng lớp riêng khi chữ đang chuyển động */
+.hero.hfx-moving .hfx-char { will-change: transform; }
+
+/* --------------------------------------------------------------------------
+   Đèn pha theo chuột — nằm sau chữ (z-index 1 < 2), bị hero cắt ở mép
+   -------------------------------------------------------------------------- */
+.hero__spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(36rem, 80vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out);
+  background: radial-gradient(circle at center, var(--accent-wash), transparent 68%);
+  --hfx-spot-a: 15%;
+}
+:root[data-theme="light"] .hero__spot { --hfx-spot-a: 10%; }
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  .hero__spot {
+    background: radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--accent) var(--hfx-spot-a), transparent) 0%,
+      color-mix(in srgb, var(--accent) calc(var(--hfx-spot-a) * 0.4), transparent) 38%,
+      transparent 68%
+    );
+  }
+}
+.hero__spot.is-on { opacity: 1; }
+.hero.hfx-moving .hero__spot { will-change: transform; }
+
+/* --------------------------------------------------------------------------
+   Dòng số liệu — số tĩnh có sẵn trong HTML, JS chỉ đếm lên khi hero vào khung
+   -------------------------------------------------------------------------- */
+.hero__stats {
+  list-style: none;
+  margin: var(--sp-8) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-6) var(--sp-8);
+  max-width: 56rem;
+}
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border-strong);
+}
+.hero__stat-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.hero__stat-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  max-width: 32ch;
+}
+
+/* Điện thoại: xếp dọc, số bên trái nhãn bên phải */
+@media (max-width: 40rem) {
+  .hero__stats { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
+  .hero__stat { flex-direction: row; align-items: baseline; gap: var(--sp-4); }
+  .hero__stat-num { flex: none; min-width: 6.5ch; font-size: 1.75rem; }
+}
+
+/* Màn rộng: tấm poster đã chật chiều dọc khi thêm dòng số liệu, nên lấy bớt
+   khoảng đệm trên (đã dư vì thanh nav nằm ngoài hero). */
+@media (min-width: 62rem) {
+  .hero { padding-top: 5.5rem; padding-bottom: 2.5rem; }
+  .hero__title { margin-bottom: var(--sp-6); }
+  .hero__cta { margin-top: var(--sp-6); }
+  .hero__stats { margin-top: var(--sp-6); }
+}
+
+@media print {
+  .hero__spot { display: none !important; }
+}

@@ -42,7 +42,7 @@
           y: 0,
           duration: 0.9,
           ease: "power3.out",
-          stagger: 0.07
+          stagger: 0.11    /* lead → từng nút → từng số liệu, đọc được thứ tự */
         }, "-=0.75");
 
       document.addEventListener("pf:loaded", function () { intro.play(); }, { once: true });

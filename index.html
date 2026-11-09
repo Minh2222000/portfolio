@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hoàng Minh — Lập trình viên giao diện, chuyên chuyển động web</title>
-<meta name="description" content="Tôi dựng lại những website từng đoạt giải và bắt chúng giữ 60 khung hình mỗi giây. Hà Nội, làm việc từ xa.">
-<meta name="author" content="Hoàng Minh">
+<title>Nguyễn Hoàng Minh — Project Manager | Product & Technical Development</title>
+<meta name="description" content="Project Manager với nền tảng Product Design, UI/UX, Front-end, Business Analysis và Software Testing; quản lý đội ngũ 10–15 nhân sự từ yêu cầu đến bàn giao. Hà Nội.">
+<meta name="author" content="Nguyễn Hoàng Minh">
 <meta name="theme-color" content="#06070a">
 
 <!-- Đặt giao diện TRƯỚC khi trình duyệt vẽ khung hình đầu tiên. Đoạn này phải
@@ -31,8 +31,8 @@
 
 <!-- Thẻ chia sẻ: quyết định trang trông thế nào khi gửi qua Zalo, LinkedIn, Slack -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hoàng Minh — Lập trình viên giao diện">
-<meta property="og:description" content="Dựng lại những website từng đoạt giải, rồi bắt chúng giữ 60 khung hình mỗi giây.">
+<meta property="og:title" content="Nguyễn Hoàng Minh — Project Manager | Product & Technical Development">
+<meta property="og:description" content="Project Manager với nền tảng Product Design, UI/UX, Front-end, Business Analysis và Testing; quản lý đội ngũ 10–15 nhân sự.">
 <meta property="og:image" content="assets/img/og-cover.svg">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -46,16 +46,18 @@
 <link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/sections.css">
 <link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/hero-fx.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Hoàng Minh",
-  "jobTitle": "Frontend Developer",
+  "name": "Nguyễn Hoàng Minh",
+  "jobTitle": "Project Manager | Product & Technical Development",
   "email": "mailto:hoangminh2222000@gmail.com",
   "address": { "@type": "PostalAddress", "addressLocality": "Hà Nội", "addressCountry": "VN" },
-  "knowsAbout": ["GSAP", "ScrollTrigger", "WebGL", "Three.js", "Nuxt", "Vue", "Playwright"]
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Trường Đại học FPT" },
+  "knowsAbout": ["Project Management", "Team Leadership", "Product Design", "UI/UX Design", "Business Analysis", "Front-end Development", "Software Testing", "Claude Code", "AI Agent Development"]
 }
 </script>
 </head>
@@ -135,8 +137,36 @@
       </h1>
 
       <p class="hero__lead lead" data-hero-in data-i18n-html="hero.lead">
-        Với hơn <strong>4 năm kinh nghiệm</strong> chuyên về UI/UX Designer, có kinh nghiệm về PO/PM.
+        <strong>Project Manager</strong> với hơn <strong>4 năm kinh nghiệm</strong>, đi lên từ Product Design, UI/UX, Front-end, Business Analysis và Testing. Quản lý đội ngũ <strong>10–15 nhân sự</strong> từ yêu cầu đến bàn giao.
       </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--solid" href="#work" data-scroll-to="#work" data-hero-in>
+          <span data-i18n="hero.ctaWork">Xem dự án</span>
+          <span class="btn__arrow" aria-hidden="true">↓</span>
+        </a>
+        <a class="btn" href="#contact" data-scroll-to="#contact" data-hero-in>
+          <span data-i18n="hero.ctaContact">Liên hệ</span>
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- Số liệu lấy từ CV. Số cuối viết sẵn ở đây (JS tắt vẫn đúng);
+           hero-fx.js chỉ đếm lên từ 0 khi hero vào khung nhìn. -->
+      <ul class="hero__stats">
+        <li class="hero__stat" data-hero-in>
+          <span class="hero__stat-num" data-count="10,15">10–15</span>
+          <span class="hero__stat-label" data-i18n="hero.stat1">nhân sự quản lý</span>
+        </li>
+        <li class="hero__stat" data-hero-in>
+          <span class="hero__stat-num" data-count="14">14</span>
+          <span class="hero__stat-label" data-i18n="hero.stat2">dự án nổi bật</span>
+        </li>
+        <li class="hero__stat" data-hero-in>
+          <span class="hero__stat-num" data-count="40" data-count-prefix="−" data-count-suffix="%">−40%</span>
+          <span class="hero__stat-label" data-i18n="hero.stat3">thời gian thiết kế giao diện mới · Design System, Getfly</span>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -146,14 +176,39 @@
       <div class="section-head">
         <p class="section-head__label mono" data-i18n="about.label">#about</p>
         <div class="section-head__col">
-          <h2 class="section-head__title section-head__title--oneline u-wide" data-i18n="about.title">Định hướng phát triển</h2>
+          <h2 class="section-head__title section-head__title--oneline u-wide" data-i18n="about.title">Giới thiệu</h2>
         </div>
       </div>
 
       <div class="about__grid">
-        <p class="manifesto" data-i18n-html="about.manifesto">
-          Bản thân luôn sẵn sàng học cái mới, nhưng không học vì nó đang thịnh. Mỗi xu hướng đọc được đều phải trả lời một câu: nó giải quyết vấn đề gì của người đang dùng sản phẩm này? Sau thời gian học tập và phát triển bản thân trong nhiều vai trò, bản thân tin <b>tư duy quan trọng hơn công cụ</b>.
-        </p>
+        <div class="about__main">
+          <p class="manifesto" data-i18n-html="about.manifesto">
+            Tôi là Project Manager trong lĩnh vực Công nghệ thông tin, đi lên từ Product Design, UI/UX, Front-end, Business Analysis và Software Testing. Luôn chủ động học cái mới, nhưng tôi tin <b>tư duy quan trọng hơn công cụ</b>.
+          </p>
+
+          <div class="about__points">
+            <div class="about__point" data-reveal>
+              <p class="eyebrow" data-i18n="about.s1.k">Cách làm việc</p>
+              <p class="lead measure" data-i18n="about.s1.p">Thích nghi nhanh với môi trường, công nghệ và yêu cầu mới, nhưng không học vì một xu hướng đang thịnh: mỗi thứ mới đọc được đều phải trả lời câu hỏi nó giải quyết vấn đề gì cho người dùng sản phẩm. Tôi luôn tìm cách nâng cao năng lực chuyên môn và khả năng quản lý để tạo ra giá trị tốt hơn trong mỗi dự án.</p>
+            </div>
+            <div class="about__point" data-reveal>
+              <p class="eyebrow" data-i18n="about.s2.k">Phạm vi vai trò Project Manager</p>
+              <p class="lead measure" data-i18n="about.s2.p">Quản lý dự án từ lúc tiếp nhận yêu cầu đến khi bàn giao: lập kế hoạch, kiểm soát phạm vi, tiến độ, nguồn lực và rủi ro. Bên cạnh đó, tôi định hướng giải pháp UI/UX, chuẩn hóa hệ thống giao diện, phân tích yêu cầu nghiệp vụ, đánh giá giải pháp kỹ thuật và kiểm soát chất lượng trước khi bàn giao.</p>
+            </div>
+            <div class="about__point" data-reveal>
+              <p class="eyebrow" data-i18n="about.s3.k">Quản lý đội ngũ 10–15 người</p>
+              <p class="lead measure" data-i18n="about.s3.p">Điều phối đội ngũ đa chức năng 10–15 nhân sự gồm Design, Front-end và Mobile: phân bổ nguồn lực, giao việc, theo dõi hiệu suất, tiến độ và chất lượng công việc. Với các đầu việc thiết kế, tôi trực tiếp phân công, review và kiểm soát chất lượng đầu ra.</p>
+            </div>
+            <div class="about__point" data-reveal>
+              <p class="eyebrow" data-i18n="about.s4.k">Cầu nối Design, BA, Front-end, Mobile, Tester</p>
+              <p class="lead measure" data-i18n="about.s4.p">Làm việc ở điểm giao giữa các nhóm: chuyển hóa nhu cầu khách hàng thành yêu cầu sản phẩm và giải pháp kỹ thuật, rồi phối hợp Design, BA, Front-end, Mobile và Tester xuyên suốt vòng đời phát triển sản phẩm. Nền tảng ở từng mảng giúp tôi trao đổi với mỗi nhóm bằng đúng ngôn ngữ chuyên môn của họ.</p>
+            </div>
+            <div class="about__point" data-reveal>
+              <p class="eyebrow" data-i18n="about.s5.k">Claude Code và AI Agent</p>
+              <p class="lead measure" data-i18n="about.s5.p">Ứng dụng Claude Code vào quy trình phát triển sản phẩm, đồng thời nghiên cứu và xây dựng AI Agent riêng dựa trên Claude Models để hỗ trợ tự động hóa các tác vụ chuyên môn và quy trình làm việc.</p>
+            </div>
+          </div>
+        </div>
 
         <div class="about__aside">
           <figure class="portrait" data-reveal>
@@ -164,15 +219,19 @@
           <div class="notes" data-reveal>
             <div class="notes__row">
               <span class="notes__k" data-i18n="about.k1">Vai trò</span>
-              <span class="notes__v" data-i18n="about.v1">UI/UX Lead Team, PO/PM, BA</span>
+              <span class="notes__v" data-i18n="about.v1">Project Manager, Product & Technical Development</span>
             </div>
             <div class="notes__row">
               <span class="notes__k" data-i18n="about.k2">Công cụ</span>
-              <span class="notes__v" data-i18n="about.v2">Figma, Framer, Visual Code, Jitter, PTS, AI</span>
+              <span class="notes__v" data-i18n="about.v2">Figma, Framer, VS Code, Claude Code, Blender, Draw.io</span>
             </div>
             <div class="notes__row">
               <span class="notes__k" data-i18n="about.k3">Phương pháp</span>
-              <span class="notes__v" data-i18n="about.v3">User research, Design system, Usability testing</span>
+              <span class="notes__v" data-i18n="about.v3">Design System, Prototyping, User Flow, Wireframe</span>
+            </div>
+            <div class="notes__row">
+              <span class="notes__k" data-i18n="about.k4">Học vấn</span>
+              <span class="notes__v" data-i18n="about.v4">Trường Đại học FPT — Công nghệ thông tin, chuyên ngành Thiết kế kỹ thuật số</span>
             </div>
           </div>
         </div>
@@ -180,21 +239,96 @@
     </div>
   </section>
 
+  <!-- ================================================= EXPERIENCE ====== -->
+  <!-- Chữ trong khối này đều có khoá exp.* trong js/data/i18n.js; tên đơn vị
+       là danh từ riêng nên để thẳng trong HTML. -->
+  <section id="experience" class="section">
+    <div class="shell">
+      <div class="section-head">
+        <p class="section-head__label mono" data-i18n="exp.label">#experience</p>
+        <div class="section-head__col">
+          <h2 class="section-head__title section-head__title--oneline u-wide" data-i18n="exp.title">Kinh nghiệm</h2>
+        </div>
+      </div>
+
+      <ol class="exp__list">
+        <li class="exp__item" data-reveal>
+          <p class="exp__period" data-i18n="exp.1.period">03/2025 — nay</p>
+          <div class="exp__main">
+            <h3 class="exp__org">GTSC</h3>
+            <p class="exp__role" data-i18n="exp.1.role">Project Manager</p>
+            <ul class="exp__points">
+              <li data-i18n="exp.1.b1">Quản lý và điều phối hoạt động triển khai dự án; kiểm soát phạm vi, tiến độ, nguồn lực và chất lượng sản phẩm.</li>
+              <li data-i18n="exp.1.b2">Quản lý đội ngũ đa chức năng quy mô 10–15 nhân sự, bao gồm Design, Front-end và Mobile; phân công công việc, điều phối nguồn lực và theo dõi hiệu suất.</li>
+              <li data-i18n="exp.1.b3">Định hướng giải pháp UI/UX, quản lý chất lượng thiết kế và chuẩn hóa hệ thống giao diện.</li>
+              <li data-i18n="exp.1.b4">Phân tích yêu cầu nghiệp vụ, làm rõ nhu cầu khách hàng và chuyển hóa thành yêu cầu sản phẩm, giải pháp kỹ thuật.</li>
+              <li data-i18n="exp.1.b5">Phân tích, đánh giá giải pháp kỹ thuật; trực tiếp tham gia triển khai Front-end và phối hợp với đội ngũ phát triển phần mềm.</li>
+              <li data-i18n="exp.1.b6">Ứng dụng Claude Code vào quy trình phát triển sản phẩm; nghiên cứu và xây dựng AI Agent riêng dựa trên Claude Models nhằm hỗ trợ tự động hóa tác vụ chuyên môn.</li>
+              <li data-i18n="exp.1.b7">Tham gia xây dựng, tối ưu quy trình kiểm thử; đánh giá chức năng, phát hiện lỗi và kiểm soát chất lượng trước khi bàn giao.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="exp__item" data-reveal>
+          <p class="exp__period" data-i18n="exp.2.period">01/2024 — nay</p>
+          <div class="exp__main">
+            <h3 class="exp__org">Freelance</h3>
+            <p class="exp__role" data-i18n="exp.2.role">UI/UX Designer / Project Manager</p>
+            <ul class="exp__points">
+              <li data-i18n="exp.2.b1">Triển khai và quản lý các dự án Website, Landing Page và hệ thống Dashboard cho khách hàng doanh nghiệp.</li>
+              <li data-i18n="exp.2.b2">Đảm nhiệm thiết kế UI/UX trong các dự án yêu cầu thiết kế giao diện và trực quan hóa dữ liệu.</li>
+              <li data-i18n="exp.2.b3">Đảm nhiệm vai trò Project Manager trong các dự án, phụ trách tiếp nhận yêu cầu, lập kế hoạch, điều phối nguồn lực và kiểm soát tiến độ.</li>
+              <li data-i18n="exp.2.b4">Phối hợp với khách hàng và đội ngũ phát triển nhằm đảm bảo chất lượng sản phẩm và tiến độ bàn giao.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="exp__item" data-reveal>
+          <p class="exp__period" data-i18n="exp.3.period">06/2024 — 02/2025</p>
+          <div class="exp__main">
+            <h3 class="exp__org">BELI</h3>
+            <p class="exp__role" data-i18n="exp.3.role">Product Team Lead / Business Analyst</p>
+            <ul class="exp__points">
+              <li data-i18n="exp.3.b1">Dẫn dắt đội ngũ Design, định hướng giải pháp UI/UX và kiểm soát chất lượng thiết kế.</li>
+              <li data-i18n="exp.3.b2">Phân tích yêu cầu nghiệp vụ và chuyển hóa nhu cầu khách hàng thành giải pháp sản phẩm.</li>
+              <li data-i18n="exp.3.b3">Phụ trách thiết kế tổng thể nền tảng Web quản lý và đặt lịch giáo viên nước ngoài dành cho các trường học.</li>
+              <li data-i18n="exp.3.b4">Phối hợp với các bộ phận liên quan trong quá trình phát triển và hoàn thiện sản phẩm.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="exp__item" data-reveal>
+          <p class="exp__period" data-i18n="exp.4.period">08/2022 — 08/2023</p>
+          <div class="exp__main">
+            <h3 class="exp__org">Getfly</h3>
+            <p class="exp__role" data-i18n="exp.4.role">Product Designer</p>
+            <ul class="exp__points">
+              <li data-i18n="exp.4.b1">Thiết kế UI/UX cho sản phẩm Getfly-G Version (Mobile App CRM).</li>
+              <li data-i18n="exp.4.b2">Xây dựng và chuẩn hóa Design System dùng chung, tối ưu khả năng tái sử dụng component.</li>
+              <li data-i18n="exp.4.b3">Góp phần giảm 40% thời gian thiết kế giao diện mới thông qua việc triển khai Design System.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <!-- =================================================== MARQUEE ====== -->
-  <!-- Tốc độ dải chữ đọc từ vận tốc cuộn: trang tự chứng minh thay vì tự khen -->
-  <section id="stack" class="section section--flush" aria-label="Công nghệ sử dụng">
+  <!-- Tốc độ dải chữ đọc từ vận tốc cuộn: trang tự chứng minh thay vì tự khen.
+       Nội dung lấy từ mục KEY TECHNICAL SKILLS & TOOLS của CV. -->
+  <section id="stack" class="section section--flush" aria-label="Công cụ sử dụng">
     <div class="marquee">
       <div class="marquee__track" data-dir="right">
         <div class="marquee__group">
-          <span class="marquee__item">GSAP</span>
+          <span class="marquee__item">Figma</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item marquee__item--ghost">ScrollTrigger</span>
+          <span class="marquee__item marquee__item--ghost">Framer</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item">Three.js</span>
+          <span class="marquee__item">Claude Code</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item marquee__item--ghost">Nuxt 3</span>
+          <span class="marquee__item marquee__item--ghost">VS Code</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item">TypeScript</span>
+          <span class="marquee__item">Blender</span>
           <span class="marquee__dot"></span>
         </div>
       </div>
@@ -202,15 +336,15 @@
     <div class="marquee">
       <div class="marquee__track" data-dir="left">
         <div class="marquee__group">
-          <span class="marquee__item marquee__item--ghost">Lenis</span>
+          <span class="marquee__item marquee__item--ghost">Draw.io</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item">GLSL</span>
+          <span class="marquee__item">Design System</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item marquee__item--ghost">Playwright</span>
+          <span class="marquee__item marquee__item--ghost">Prototyping</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item">Vite</span>
+          <span class="marquee__item">AI Agent</span>
           <span class="marquee__dot"></span>
-          <span class="marquee__item marquee__item--ghost">Figma</span>
+          <span class="marquee__item marquee__item--ghost">QA</span>
           <span class="marquee__dot"></span>
         </div>
       </div>
@@ -251,41 +385,47 @@
       <div class="section-head">
         <p class="section-head__label mono" data-i18n="cap.label">#capabilities</p>
         <div>
-          <h2 class="section-head__title u-wide" data-i18n="cap.title">Kỹ năng, chuyên ngành của bản thân</h2>
+          <h2 class="section-head__title u-wide" data-i18n="cap.title">Năng lực chính</h2>
         </div>
       </div>
 
       <div class="grid grid--3">
         <article class="cap" data-reveal>
-          <p class="cap__k" data-i18n="cap.k1">Thiết kế</p>
-          <h3 class="cap__title" data-i18n="cap.t1">UI/UX Designer</h3>
-          <p class="cap__body" data-i18n="cap.b1">Thiết kế trải nghiệm bắt đầu từ vấn đề người dùng, không phải từ giao diện đẹp. Wireframe, prototype, kiểm thử — rồi mới đến pixel cuối cùng.</p>
+          <p class="cap__k" data-i18n="cap.k1">Quản lý</p>
+          <h3 class="cap__title" data-i18n="cap.t1">Project Management & Team Leadership</h3>
+          <p class="cap__body" data-i18n="cap.b1">Dẫn dắt dự án từ yêu cầu đến bàn giao: kế hoạch rõ ràng, nguồn lực đúng chỗ, tiến độ và chất lượng luôn được kiểm soát.</p>
           <ul class="cap__list">
-            <li data-i18n="cap.l1a">Wireframe và prototype bằng Figma</li>
-            <li data-i18n="cap.l1b">Nghiên cứu người dùng, kiểm thử khả dụng</li>
-            <li data-i18n="cap.l1c">Xây dựng và duy trì design system</li>
+            <li data-i18n="cap.l1a">Project Planning, Scope và Timeline Management</li>
+            <li data-i18n="cap.l1b">Resource Management và Risk Management</li>
+            <li data-i18n="cap.l1c">Điều phối đội ngũ 10–15 nhân sự Design, Front-end, Mobile</li>
+            <li data-i18n="cap.l1d">Giao việc, kiểm soát tiến độ và chất lượng công việc</li>
+            <li data-i18n="cap.l1e">Phối hợp Design, BA, Front-end, Mobile và Tester</li>
           </ul>
         </article>
 
         <article class="cap" data-reveal>
-          <p class="cap__k" data-i18n="cap.k2">Sản phẩm</p>
-          <h3 class="cap__title" data-i18n="cap.t2">PO/PM</h3>
-          <p class="cap__body" data-i18n="cap.b2">Ưu tiên đúng việc, đúng thời điểm. Cân bằng nhu cầu người dùng, mục tiêu kinh doanh và năng lực đội ngũ để sản phẩm đi đúng hướng.</p>
+          <p class="cap__k" data-i18n="cap.k2">Thiết kế</p>
+          <h3 class="cap__title" data-i18n="cap.t2">Product Design & UI/UX</h3>
+          <p class="cap__body" data-i18n="cap.b2">Thiết kế bắt đầu từ bài toán của người dùng và nghiệp vụ: user flow, wireframe, prototype rồi mới đến giao diện cuối cùng, thống nhất bằng Design System.</p>
           <ul class="cap__list">
-            <li data-i18n="cap.l2a">Xây dựng roadmap và quản lý backlog</li>
-            <li data-i18n="cap.l2b">Viết user story, tiêu chí chấp nhận</li>
-            <li data-i18n="cap.l2c">Làm việc với stakeholder, theo dõi chỉ số sau ra mắt</li>
+            <li data-i18n="cap.l2a">UI/UX Design, User Flow, Wireframe</li>
+            <li data-i18n="cap.l2b">Prototyping bằng Figma và Framer</li>
+            <li data-i18n="cap.l2c">Xây dựng và chuẩn hóa Design System</li>
+            <li data-i18n="cap.l2d">Draw.io: User Flow, System Flow, Process Modeling</li>
+            <li data-i18n="cap.l2e">Blender: 3D Modeling cho trực quan hóa thiết bị</li>
           </ul>
         </article>
 
         <article class="cap" data-reveal>
-          <p class="cap__k" data-i18n="cap.k3">Nghiệp vụ</p>
-          <h3 class="cap__title" data-i18n="cap.t3">BA</h3>
-          <p class="cap__body" data-i18n="cap.b3">Đọc đúng bài toán nghiệp vụ trước khi đề xuất giải pháp. Tài liệu rõ ràng để đội phát triển làm đúng ngay từ lần đầu.</p>
+          <p class="cap__k" data-i18n="cap.k3">Nghiệp vụ & kỹ thuật</p>
+          <h3 class="cap__title" data-i18n="cap.t3">Business Analysis, Technical & AI Agent</h3>
+          <p class="cap__body" data-i18n="cap.b3">Đọc đúng bài toán nghiệp vụ và đánh giá giải pháp kỹ thuật trước khi đề xuất hướng làm. Tài liệu rõ ràng để đội phát triển làm đúng ngay từ lần đầu; AI Agent hỗ trợ tự động hóa tác vụ chuyên môn.</p>
           <ul class="cap__list">
-            <li data-i18n="cap.l3a">Thu thập và phân tích yêu cầu</li>
-            <li data-i18n="cap.l3b">Vẽ quy trình nghiệp vụ, use case</li>
-            <li data-i18n="cap.l3c">Viết tài liệu đặc tả (SRS, FRD)</li>
+            <li data-i18n="cap.l3a">Requirement Analysis, Business Process Analysis, BRD</li>
+            <li data-i18n="cap.l3b">Technical Requirement Analysis, Technical Solution Evaluation</li>
+            <li data-i18n="cap.l3c">Front-end Implementation, Design-to-Code với VS Code</li>
+            <li data-i18n="cap.l3d">Claude Code, Custom AI Agent, AI Workflow Automation</li>
+            <li data-i18n="cap.l3e">Functional Testing, UI Testing, Bug Tracking, QA</li>
           </ul>
         </article>
       </div>
@@ -319,7 +459,7 @@
 
 <footer class="footer">
   <div class="shell footer__grid">
-    <span>© 2026 Hoàng Minh — <span data-i18n="footer.rights">Tự viết tay, không dùng khung dựng sẵn</span></span>
+    <span>© 2026 Nguyễn Hoàng Minh —<span data-i18n="footer.rights">Tự viết tay, không dùng khung dựng sẵn</span></span>
     <span><span data-i18n="footer.clock">Giờ Hà Nội</span> <span data-clock>--:--</span></span>
     <a class="footer__top" href="#hero" data-scroll-to="#hero">
       <span data-i18n="footer.top">Lên đầu trang</span>
@@ -347,6 +487,7 @@
 <script src="js/modules/cursor.js"></script>
 <script src="js/modules/nav.js"></script>
 <script src="js/modules/hero.js"></script>
+<script src="js/modules/hero-fx.js"></script>
 <script src="js/modules/work.js"></script>
 <script src="js/modules/marquee.js"></script>
 <script src="js/modules/reveal.js"></script>

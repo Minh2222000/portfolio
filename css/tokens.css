@@ -28,7 +28,7 @@
   --ink-line:   #191d27;   /* đường kẻ, viền */
 
   --bone:       #efebe2;   /* chữ chính, trắng ngà ấm */
-  --bone-dim:   #a8a49c;   /* chữ phụ */
+  --bone-dim:   #bdb9b1;   /* chữ phụ (sáng hơn để đọc thoải mái trên nền tối) */
   --steel:      #8b94a4;   /* chữ mờ, nhãn, metadata (≥6:1 trên nền tối) */
 
   --sodium:     #ffb23a;   /* vàng đèn cao áp: link, hover, số liệu sống */

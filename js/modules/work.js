@@ -44,7 +44,11 @@
     }
 
     var year = el("div", "work__year", project.year);
+    var main = el("div", "work__main");
     var title = el("h3", "work__title", project.title);
+    var summary = el("p", "work__summary");
+    main.appendChild(title);
+    main.appendChild(summary);
     var role = el("div", "work__role");
     var go = el("div", "work__go", "↗");        /* mũi tên chéo lên */
 
@@ -59,12 +63,12 @@
     link.appendChild(srLabel);
 
     row.appendChild(year);
-    row.appendChild(title);
+    row.appendChild(main);
     row.appendChild(role);
     row.appendChild(go);
     row.appendChild(link);
 
-    rows.push({ project: project, role: role, link: link, srLabel: srLabel, node: row });
+    rows.push({ project: project, role: role, summary: summary, link: link, srLabel: srLabel, node: row });
     return row;
   }
 
@@ -73,6 +77,8 @@
     updateMoreLabel();
     rows.forEach(function (r) {
       r.role.textContent = r.project.role[lang] || r.project.role.vi;
+      var s = r.project.summary;
+      r.summary.textContent = s ? (s[lang] || s.vi || "") : "";
       var label = (PF.t && PF.t("work.view")) || "Xem";
       r.srLabel.textContent = label + " " + r.project.title;
       r.link.setAttribute("data-cursor", label);
@@ -212,7 +218,13 @@
       var project = PF.projects.filter(function (p) { return p.id === id; })[0];
       if (!project) return;
 
-      img.src = leadImage(project);
+      /* Dự án chưa có ảnh thì không hiện khung xem trước (tránh ảnh vỡ) */
+      var lead = leadImage(project);
+      if (!lead) {
+        gsap.to(box, { opacity: 0, scale: 0.86, duration: 0.3, ease: "power2.out" });
+        return;
+      }
+      img.src = lead;
       img.alt = "";
       gsap.to(box, { opacity: 1, scale: 1, duration: 0.4, ease: "expo.out" });
     });

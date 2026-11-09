@@ -1,0 +1,819 @@
+/* ==========================================================================
+   case-fx.css — trang chi tiết dự án kiểu "điện ảnh" (MẪU). Mọi luật nằm dưới
+   .case--cinematic (class do js/modules/case-fx.js gắn lên <main> chỉ cho dự
+   án khai `cinematic: true`), nên dự án khác không đổi một điểm ảnh.
+
+   Tất cả màu dùng token semantic của tokens.css (--fg, --accent, --glow-near…),
+   tự đúng ở cả hai giao diện. Chuyển động chỉ dùng transform / opacity /
+   clip-path; không đụng tới bề rộng hay cỡ chữ lúc chạy.
+
+   Gỡ: xoá file này + thẻ <link> trong project.html (xem đầu case-fx.js).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Phần tử toàn cục (nằm ngoài <main>): thanh tiến độ, lightbox
+   -------------------------------------------------------------------------- */
+.cfx-progress {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: calc(var(--z-nav) + 1);
+  pointer-events: none;
+}
+.cfx-progress.is-on { display: block; }
+.cfx-progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-solid);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+html.cfx-lock { overflow: hidden; }
+html.cfx-lock body { padding-right: var(--cfx-sbw, 0); }
+html.cfx-lock .nav { padding-right: calc(var(--page-x) + var(--cfx-sbw, 0px)); }
+
+.cfx-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-transition) + 1);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  background: var(--photo-scrim);
+  color: var(--photo-fg);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  overscroll-behavior: contain;
+}
+.cfx-lightbox[hidden] { display: none; }
+.cfx-lightbox.is-open { opacity: 1; }
+
+.cfx-lightbox__fig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  transform: scale(0.96);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.cfx-lightbox.is-open .cfx-lightbox__fig { transform: none; }
+.cfx-lightbox__img {
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 110rem);
+  max-height: calc(100svh - 10rem);
+  object-fit: contain;
+  cursor: default;
+}
+.cfx-lightbox__cap {
+  font-size: var(--t-xs);
+  color: var(--photo-fg);
+}
+
+.cfx-lightbox__close {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0.75rem 1.1rem;
+  border: 1px solid var(--photo-fg);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--photo-fg);
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out);
+}
+.cfx-lightbox__close:hover {
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: var(--on-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Nút bọc ảnh (phóng to) — dùng cho ảnh chính và ảnh thư viện
+   -------------------------------------------------------------------------- */
+.case--cinematic .cfx-zoom {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--cfx-ar, 4 / 3);       /* khung giữ chỗ, không nhảy bố cục */
+  padding: 0;
+  border-radius: var(--radius-lg);
+  cursor: zoom-in;
+}
+.case--cinematic .cfx-zoom img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   MỞ ĐẦU
+   -------------------------------------------------------------------------- */
+.case--cinematic .case__hero {
+  position: relative;
+  overflow-x: clip;
+  padding-block: calc(var(--sp-24) + var(--sp-2)) var(--sp-16);
+  border-bottom: 1px solid var(--border);
+  background:
+    /* quầng sáng tắt hẳn trước mép dưới hero: không để lại vệt đổi tông ở đường chia */
+    radial-gradient(52% 58% at 78% 56%, var(--glow-near), transparent 66%),
+    radial-gradient(40% 40% at 8% 6%, var(--glow-far), transparent 70%);
+}
+
+/* Tên dự án: cùng ngôn ngữ với hero trang chủ — dòng chữ đặc (tên ngắn) và
+   dòng chữ viền (phần mô tả). Cỡ chữ đặc co theo số ký tự để tên dài không tràn. */
+.case--cinematic .cfx-hero__copy { container-type: inline-size; min-width: 0; }
+.case--cinematic .cfx-title {
+  /* 0.99em ≈ bề rộng một chữ hoa Archivo 900 / wdth 125; 93cqi chừa hở cho nét chữ */
+  font-size: clamp(2.25rem, calc(93cqi / (var(--cfx-chars, 4) * 0.99)), 14rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: nowrap;
+  margin: 0;
+}
+/* Tên dài: xuống dòng giữa các từ (JS thêm class khi tên > 14 ký tự) */
+.case--cinematic .cfx-title--wrap,
+.case--cinematic .cfx-title--wrap .cfx-line--solid .cfx-line__in {
+  text-wrap: balance;
+  white-space: normal;
+}
+/* Hộp cắt cho màn chào chữ trượt lên; đệm đủ cho dấu tiếng Việt và nét chữ viền */
+.case--cinematic .cfx-line {
+  display: block;
+  overflow: hidden;
+  padding: 0.22em 0.08em 0.1em;
+  margin: -0.22em -0.08em -0.1em;
+}
+.case--cinematic .cfx-line__in { display: block; }
+/* Kéo trái một chút cho mép chữ D thẳng hàng quang học với lời dẫn bên dưới */
+.case--cinematic .cfx-line--solid { color: var(--fg); margin-left: calc(-0.08em - 0.035em); }
+
+.case--cinematic .cfx-line--outline {
+  /* tên mô tả: chữ đặc, rõ nét. Chữ viền làm dấu tiếng Việt dính nhau nên bỏ. */
+  margin-top: 0.05em;
+  padding-top: 0.5em;
+  font-size: clamp(1.4rem, 5.6cqi, 3rem);
+  font-weight: 700;
+  font-stretch: 100%;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  text-wrap: balance;
+  color: var(--fg);
+}
+
+/* Chữ phản ứng theo con trỏ (JS tách chữ, chỉ máy có chuột thật). --p = độ gần. */
+.case--cinematic .cfx-word { display: inline-block; white-space: nowrap; }
+.case--cinematic .cfx-unit {
+  display: inline-block;
+  transform-origin: 50% 90%;
+}
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  .case--cinematic .cfx-line--solid .cfx-unit {
+    color: color-mix(in srgb, var(--accent) calc(var(--p, 0) * 100%), var(--fg));
+  }
+  .case--cinematic .cfx-line--outline .cfx-unit {
+    color: color-mix(in srgb, var(--accent) calc(var(--p, 0) * 100%), var(--fg));
+  }
+}
+.case--cinematic .cfx-hero.cfx-moving .cfx-unit,
+.case--cinematic .cfx-hero.cfx-moving .cfx-stage__tilt { will-change: transform; }
+
+/* Hàng nhãn mono: vai trò · công cụ · năm */
+.case--cinematic .case__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-8);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border-strong);
+  margin-top: var(--sp-8);
+}
+.case--cinematic .case__fact {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.case--cinematic .case__fact .eyebrow {
+  font-size: var(--t-sm);
+  color: var(--accent);
+}
+.case--cinematic .case__fact b {
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.case--cinematic .tag {
+  font-size: var(--t-sm);
+  color: var(--fg-muted);
+  border-color: var(--border-strong);
+}
+
+.case--cinematic .cfx-hero__grid {
+  display: grid;
+  gap: var(--sp-12);
+  align-items: center;
+}
+@media (min-width: 62rem) {
+  .case--cinematic .cfx-hero__grid:not(.cfx-hero__grid--solo) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+  }
+}
+.case--cinematic .cfx-hero__copy .lead {
+  max-width: 46ch;
+  font-size: var(--t-md);
+  margin-top: var(--sp-8);
+}
+
+/* Ảnh chính: drift (cuộn thị sai) > tilt (nghiêng theo chuột) > ảnh. Mỗi lớp
+   một transform riêng để không giẫm lên nhau. */
+.case--cinematic .cfx-stage {
+  position: relative;
+  perspective: 1400px;
+  min-width: 0;
+}
+.case--cinematic .cfx-stage::before {
+  content: "";
+  position: absolute;
+  inset: 8% 2% 4%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--accent-wash), transparent);
+  pointer-events: none;
+}
+/* Giao diện sáng: thiết bị trắng/bạc chìm vào nền giấy kem, nên dựng một "sân
+   khấu" sẫm (màu mực --fg pha với nền) phía sau + bóng đổ mềm để khối ảnh nổi
+   lên. Giao diện tối giữ nguyên quầng sáng vàng ở trên. */
+:root[data-theme="light"] .case--cinematic .cfx-stage::before {
+  inset: 4% 0 5%;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(75% 70% at 50% 46%,
+    color-mix(in srgb, var(--fg) 74%, var(--bg)),
+    color-mix(in srgb, var(--fg) 94%, var(--bg)));
+  box-shadow: 0 2.25rem 4rem -1.75rem color-mix(in srgb, var(--fg) 55%, transparent);
+}
+.case--cinematic .cfx-stage__drift,
+.case--cinematic .cfx-stage__tilt { position: relative; transform-origin: 50% 60%; }
+.case--cinematic .cfx-stage__tilt { transform-style: preserve-3d; }
+
+/* --------------------------------------------------------------------------
+   KỂ CHUYỆN THEO CHƯƠNG + BẢNG THÔNG TIN DÍNH
+   -------------------------------------------------------------------------- */
+.case--cinematic .cfx-story {
+  display: grid;
+  gap: var(--sp-12);
+  padding-block: var(--sp-24) var(--sp-16);
+}
+@media (min-width: 62rem) {
+  .case--cinematic .cfx-story {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: var(--sp-16);
+    align-items: start;
+  }
+  .case--cinematic .cfx-panel {
+    position: sticky;
+    top: 6.5rem;
+  }
+}
+
+.case--cinematic .cfx-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding-left: var(--sp-6);
+  border-left: 1px solid var(--border-strong);
+  min-width: 0;
+}
+.case--cinematic .cfx-panel .eyebrow { font-size: var(--t-sm); letter-spacing: 0.16em; color: var(--fg-muted); }
+.case--cinematic .cfx-panel .cfx-panel__title { color: var(--accent); }
+.case--cinematic .cfx-panel__list { display: flex; flex-direction: column; gap: var(--sp-4); }
+.case--cinematic .cfx-panel__item { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+.case--cinematic .cfx-panel__metrics { display: flex; flex-direction: column; gap: var(--sp-3); }
+.case--cinematic .cfx-panel__metrics li { display: flex; align-items: baseline; gap: var(--sp-3); }
+.case--cinematic .cfx-panel__metrics b {
+  flex: none;
+  min-width: 1.6rem;
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 800;
+  font-size: var(--t-lg);
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.case--cinematic .cfx-panel__metrics span {
+  font-size: var(--t-sm);
+  line-height: 1.4;
+  color: var(--fg-muted);
+}
+
+/* Mục lục chương: chỉ có nghĩa khi bảng dính (màn rộng) */
+.case--cinematic .cfx-toc { display: none; }
+@media (min-width: 62rem) {
+  .case--cinematic .cfx-toc { display: flex; flex-direction: column; gap: var(--sp-3); }
+}
+.case--cinematic .cfx-toc__list { display: flex; flex-direction: column; gap: 0; }
+.case--cinematic .cfx-toc__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding-block: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.case--cinematic .cfx-toc__num { color: var(--fg-faint); transition: color var(--dur-fast) var(--ease-out); }
+.case--cinematic .cfx-toc__link:hover,
+.case--cinematic .cfx-toc__link.is-current { color: var(--fg); }
+.case--cinematic .cfx-toc__link:hover .cfx-toc__num,
+.case--cinematic .cfx-toc__link.is-current .cfx-toc__num { color: var(--accent); }
+
+.case--cinematic .cfx-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 11vh, 8rem);
+  min-width: 0;
+}
+.case--cinematic .cfx-chapter { scroll-margin-top: 6rem; }
+.case--cinematic .cfx-chapter__head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-6);
+  padding-top: var(--sp-6);
+  margin-bottom: var(--sp-8);
+  border-top: 1px solid var(--border-strong);
+}
+.case--cinematic .cfx-chapter__num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(4.5rem, 10vw, 9rem);
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.case--cinematic .cfx-chapter__title {
+  font-size: var(--t-xl);
+  line-height: 1;
+  font-stretch: 112%;
+  padding-bottom: 0.12em;
+  min-width: 0;
+}
+.case--cinematic .cfx-chapter__body { display: flex; flex-direction: column; gap: var(--sp-6); }
+.case--cinematic .cfx-chapter__body p {
+  font-size: var(--t-md);
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 70ch;
+}
+
+/* Kết quả: một câu khẳng định cỡ lớn thay cho dãy số. Chữ đặc, không viền rỗng
+   (viền rỗng ở đoạn mô tả trước đã bị chê khó đọc). */
+.case--cinematic .cfx-chapter__body p[data-case="result"] {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 108%;
+  font-size: clamp(1.6rem, 3.2vw, 2.7rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+/* Tiêu chí / công việc: lưới thẻ hai cột, mỗi thẻ có số thứ tự nhỏ và đường kẻ
+   đầu thẻ. Thẻ lẻ cuối cùng trải hết hàng để lưới không hụt một ô. */
+.case--cinematic .cfx-chapter .case__tasks {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-4);
+  max-width: none;
+  counter-reset: cfx-card;
+}
+@media (min-width: 40rem) {
+  .case--cinematic .cfx-chapter .case__tasks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case--cinematic .cfx-chapter .case__tasks li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+.case--cinematic .cfx-chapter .case__tasks li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-6);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  font-size: var(--t-md);
+  line-height: 1.5;
+  color: var(--fg);
+  counter-increment: cfx-card;
+}
+.case--cinematic .cfx-chapter .case__tasks li::before {
+  content: counter(cfx-card, decimal-leading-zero);
+  position: static;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* Chương "Kết quả": dải số liệu cỡ lớn, kẻ phân cột. Chỉ dùng số liệu sẵn có. */
+.case--cinematic .case__metrics {
+  container-type: inline-size;       /* cỡ số co theo bề rộng khung, xem .case__metric b */
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  border-block: 1px solid var(--border-strong);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+.case--cinematic .case__metric {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--sp-4);
+  padding: var(--sp-8) var(--sp-8) var(--sp-8) 0;
+  min-width: 0;
+}
+.case--cinematic .case__metric + .case__metric {
+  padding-left: var(--sp-8);
+  border-left: 1px solid var(--border-strong);
+}
+.case--cinematic .case__metric b {
+  margin: 0;
+  font-weight: 900;
+  font-stretch: 125%;
+  /* Tối đa 15rem như mẫu; nhưng không vượt phần một cột được chia (trừ lề 4rem)
+     theo số số liệu (--cfx-mn) và số chữ số dài nhất (--cfx-mc, mỗi ký tự rộng
+     ≈ 0.78 cỡ chữ), nên số liệu không tràn khỏi cột. */
+  font-size: clamp(2.5rem, calc((100cqi / var(--cfx-mn, 1) - 4rem) / (0.78 * var(--cfx-mc, 3))), clamp(6rem, 17vw, 15rem));
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+}
+.case--cinematic .case__metric span {
+  font-family: var(--font-body);
+  font-size: var(--t-md);
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.4;
+  color: var(--fg-muted);
+}
+@media (max-width: 39.99rem) {
+  .case--cinematic .case__metric + .case__metric {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--border-strong);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   THƯ VIỆN ẢNH
+   -------------------------------------------------------------------------- */
+.case--cinematic .cfx-gallery {
+  padding-block: var(--sp-16) var(--sp-24);
+  border-top: 1px solid var(--border);
+}
+.case--cinematic .cfx-gallery__label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-12);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.case--cinematic .cfx-gallery__label::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--border-strong);
+  flex: none;
+}
+.case--cinematic .cfx-gallery__grid {
+  display: grid;
+  gap: var(--sp-8);
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 56rem) {
+  .case--cinematic .cfx-gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.case--cinematic .cfx-shot {
+  --cfx-sh: clamp(17rem, 34vw, 32rem);          /* chiều cao ô: giống nhau ở mọi ô */
+  --cfx-pad: clamp(0.75rem, 2.2vw, 2rem);
+  position: relative;
+  min-width: 0;
+  margin: 0;
+}
+/* Ô cố định chiều cao; thiết bị nằm đáy-giữa nên mọi ô chung một đường cơ sở */
+.case--cinematic .cfx-shot__box {
+  position: relative;
+  height: var(--cfx-sh);
+  padding: var(--cfx-pad);
+  box-sizing: border-box;
+}
+.case--cinematic .cfx-shot__box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(closest-side at 50% 62%, var(--accent-wash), transparent);
+  pointer-events: none;
+}
+:root[data-theme="light"] .case--cinematic .cfx-shot__box::before {
+  background: radial-gradient(75% 70% at 50% 52%,
+    color-mix(in srgb, var(--fg) 74%, var(--bg)),
+    color-mix(in srgb, var(--fg) 94%, var(--bg)));
+  box-shadow: 0 1.75rem 3rem -1.5rem color-mix(in srgb, var(--fg) 50%, transparent);
+}
+.case--cinematic .cfx-float {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+/* Nút ảnh trong ô: rộng tối đa theo chiều cao ô × tỉ lệ ảnh đã cắt */
+.case--cinematic .cfx-shot .cfx-zoom {
+  --cfx-arn: 1.3333;
+  width: 100%;
+  max-width: calc((var(--cfx-sh) - 2 * var(--cfx-pad)) * var(--cfx-arn));
+}
+.case--cinematic .cfx-zoom--trim { overflow: hidden; }
+.case--cinematic .cfx-zoom--trim img {
+  width: var(--cfx-iw);
+  height: auto;
+  max-width: none;
+  margin-left: var(--cfx-ml);
+  margin-top: var(--cfx-mt);
+}
+/* Ảnh chụp giao diện phẳng (dự án không dùng mockup): giữ tỉ lệ thật, khung
+   mảnh, bóng nhẹ. Ảnh nhiều tỉ lệ nên các ô xếp từ trên xuống, không ép cùng
+   chiều cao; ảnh `wide` chiếm trọn hàng. */
+.case--cinematic .cfx-zoom--flat {
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  box-shadow: 0 1.75rem 3rem -1.75rem rgba(0, 0, 0, 0.55);
+}
+.case--cinematic .cfx-zoom--flat img { object-fit: cover; }
+/* Ảnh đầu trang dạng dọc: cao tối đa 78% khung nhìn, bề rộng suy ra từ tỉ lệ */
+.case--cinematic .cfx-zoom--portrait {
+  width: auto;
+  max-width: 100%;
+  height: min(78vh, 46rem);
+  margin-inline: auto;
+  aspect-ratio: var(--cfx-ar, 3 / 4);
+}
+
+/* Dải ảnh cuộn ngang: mỗi ảnh hiện nguyên cả frame theo tỉ lệ thật, cùng chiều
+   cao, bề rộng tự suy ra. Thanh cuộn ẩn (đã có thanh tiến độ riêng). */
+.case--cinematic .cfx-gallery--flat .cfx-gallery__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4) var(--sp-6);
+  margin-bottom: var(--sp-8);
+}
+.case--cinematic .cfx-gallery--flat .cfx-gallery__label { margin-bottom: 0; }
+.case--cinematic .cfx-gallery__tools { display: flex; align-items: center; gap: var(--sp-3); }
+.case--cinematic .cfx-gallery__hint {
+  margin-right: var(--sp-3);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.case--cinematic .cfx-gallery__btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--fg);
+  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), opacity var(--dur-fast);
+}
+.case--cinematic .cfx-gallery__btn:hover:not(:disabled) {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+}
+.case--cinematic .cfx-gallery__btn:disabled { opacity: 0.35; cursor: default; }
+
+.case--cinematic .cfx-gallery__port { position: relative; }
+
+/* Cặp nút hai bên mép dải: tròn, nằm giữa ảnh (trừ phần chú thích bên dưới),
+   nổi trên mép mờ. Tới đầu/cuối dải thì mờ đi và không bấm được. */
+.case--cinematic .cfx-gallery__side {
+  position: absolute;
+  top: calc(50% - 1.75rem);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  transform: translateY(-50%);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--fg);
+  box-shadow: 0 0.75rem 1.75rem -0.75rem rgba(0, 0, 0, 0.5);
+  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast), opacity var(--dur-fast);
+}
+.case--cinematic .cfx-gallery__side--prev { left: var(--sp-4); }
+.case--cinematic .cfx-gallery__side--next { right: var(--sp-4); }
+.case--cinematic .cfx-gallery__side:hover:not(:disabled) {
+  color: var(--on-accent);
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+}
+.case--cinematic .cfx-gallery__side:disabled { opacity: 0; pointer-events: none; }
+@media (max-width: 40rem) {
+  .case--cinematic .cfx-gallery__side { width: 2.5rem; height: 2.5rem; font-size: 1rem; }
+  .case--cinematic .cfx-gallery__side--prev { left: var(--sp-2); }
+  .case--cinematic .cfx-gallery__side--next { right: var(--sp-2); }
+}
+/* Mép phải mờ dần: gợi ý còn ảnh phía sau; hết dải thì tắt */
+.case--cinematic .cfx-gallery__port::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(2rem, 6vw, 5rem);
+  background: linear-gradient(to left, var(--bg), transparent);
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.case--cinematic .cfx-gallery__port.is-end::after { opacity: 0; }
+
+.case--cinematic .cfx-gallery__grid--flat {
+  --cfx-th: clamp(20rem, 70vh, 44rem);        /* chiều cao chung của mọi frame */
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-8);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--sp-2) var(--sp-1) var(--sp-6);
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--sp-1);          /* bằng padding: ảnh đầu không bị cuộn lệch 4px */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.case--cinematic .cfx-gallery__grid--flat::-webkit-scrollbar { display: none; }
+.case--cinematic .cfx-gallery__grid--flat.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.case--cinematic .cfx-gallery__grid--flat:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.case--cinematic .cfx-gallery__grid--flat .cfx-shot { flex: none; scroll-snap-align: start; }
+.case--cinematic .cfx-gallery__grid--flat .cfx-shot .cfx-zoom {
+  width: auto;
+  max-width: none;
+  height: var(--cfx-th);
+  aspect-ratio: var(--cfx-ar, 4 / 3);
+}
+.case--cinematic .cfx-gallery__bar {
+  position: relative;
+  height: 2px;
+  margin-top: var(--sp-4);
+  background: var(--border-strong);
+  overflow: hidden;
+}
+.case--cinematic .cfx-gallery__bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent-solid);
+  will-change: transform;
+}
+
+.case--cinematic .cfx-shot__cap {
+  margin-top: var(--sp-3);
+  font-size: var(--t-sm);
+  color: var(--fg-muted);
+}
+
+/* --------------------------------------------------------------------------
+   NÚT ĐIỀU HƯỚNG + DẢI "DỰ ÁN TIẾP THEO"
+   -------------------------------------------------------------------------- */
+.case--cinematic .case__nav { padding-block: var(--sp-8) var(--sp-12); }
+
+.cfx-next {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  padding: clamp(3.5rem, 9vw, 8rem) var(--page-x);
+  border-top: 1px solid var(--border-strong);
+  overflow: hidden;
+  color: var(--fg);
+}
+.cfx-next::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent-solid);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.cfx-next__label {
+  font-size: var(--t-xs);
+  color: var(--fg-muted);
+}
+.cfx-next__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+}
+.cfx-next__name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(2.75rem, min(13vw, calc(76vw / (var(--cfx-n, 8) * 0.9))), 13rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.cfx-next__arrow {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 9vw, 9rem);
+  line-height: 1;
+  transition: transform var(--dur-slow) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+.cfx-next:hover .cfx-next__name,
+.cfx-next:focus-visible .cfx-next__name,
+.cfx-next:hover .cfx-next__arrow,
+.cfx-next:focus-visible .cfx-next__arrow { color: var(--accent); }
+.cfx-next:hover .cfx-next__arrow,
+.cfx-next:focus-visible .cfx-next__arrow { transform: translateX(0.18em); }
+.cfx-next:hover::after,
+.cfx-next:focus-visible::after { transform: scaleX(1); }
+.cfx-next:focus-visible { outline-offset: -4px; }
+
+/* Cảm ứng: hover dính sau khi chạm nên không đổi màu / dịch mũi tên */
+@media (hover: none), (pointer: coarse) {
+  .case--cinematic .cfx-zoom { cursor: pointer; }
+  .cfx-next:hover .cfx-next__name,
+  .cfx-next:hover .cfx-next__arrow { color: inherit; transform: none; }
+  .cfx-next:hover::after { transform: scaleX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cfx-progress { display: none !important; }
+  .cfx-lightbox__fig { transform: none; }
+}
+
+@media print {
+  .cfx-progress, .cfx-lightbox { display: none !important; }
+}

@@ -1,8 +1,8 @@
 /* ==========================================================================
-   modules/marquee.js — dải chữ chạy ngang, tốc độ đọc từ vận tốc cuộn.
+   modules/marquee.js — dải chữ chạy ngang, tự trôi đều với tốc độ cố định.
 
-   Đây là chỗ trang tự chứng minh thay vì tự khen: cuộn nhanh thì dải chữ
-   vọt theo, dừng tay thì nó trôi lại về nhịp nền.
+   Cuộn trang không ảnh hưởng gì đến dải chữ: nó luôn tự di chuyển, hai hàng
+   chạy ngược chiều nhau.
    ========================================================================== */
 
 (function () {
@@ -45,33 +45,17 @@
 
     if (!lanes.length) return;
 
-    var BASE = 0.9;            /* tốc độ nền, pixel mỗi khung hình */
-    var boost = 0;             /* phần cộng thêm do cuộn, tự tiêu dần */
+    /* Tốc độ cố định tính theo giây chứ không theo khung hình, để màn 60Hz và
+       144Hz chạy cùng một nhịp. Không đọc vận tốc cuộn. */
+    var SPEED = 54;            /* pixel mỗi giây */
 
-    /* ScrollTrigger đo vận tốc bằng pixel mỗi giây. Chia cho một số lớn để
-       đưa về cùng đơn vị với tốc độ nền, rồi chặn trần cho khỏi vọt quá đà. */
-    if (window.ScrollTrigger) {
-      window.ScrollTrigger.create({
-        trigger: document.body,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: function (self) {
-          boost = gsap.utils.clamp(-14, 14, self.getVelocity() / 260);
-        }
-      });
-    }
-
-    function frame() {
-      /* boost tiêu dần về 0 khi ngừng cuộn — dải chữ trôi lại nhịp nền chứ
-         không phanh gấp. */
-      boost *= 0.94;
-      var speed = BASE + Math.abs(boost);
-      /* Cuộn ngược thì dải cũng đổi chiều: chuyển động phải nói đúng sự thật
-         về việc người xem đang làm gì. */
-      var sign = boost < -0.4 ? -1 : 1;
+    function frame(time, deltaTime) {
+      /* deltaTime tính bằng mili giây. Chặn trần để lúc tab bị treo rồi quay
+         lại, dải chữ không nhảy một đoạn dài. */
+      var step = SPEED * Math.min(deltaTime, 100) / 1000;
 
       lanes.forEach(function (lane) {
-        lane.offset -= speed * lane.dir * sign;
+        lane.offset -= step * lane.dir;
         /* Kéo về khoảng [-width, 0] để toạ độ không lớn dần vô hạn */
         if (lane.offset <= -lane.width) lane.offset += lane.width;
         if (lane.offset >= 0) lane.offset -= lane.width;
