@@ -25,6 +25,20 @@
   document.documentElement.setAttribute("data-theme", theme);
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", theme === "light" ? "#f4f1e9" : "#06070a");
+
+  /* Tải lại trang (F5, Ctrl+F5): luôn về đầu trang, không để trình duyệt
+     khôi phục vị trí cuộn cũ và bỏ #neo trên địa chỉ. */
+  try {
+    var nav = performance.getEntriesByType("navigation")[0];
+    if (nav && nav.type === "reload") {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      var top = function () { window.scrollTo(0, 0); };
+      top();
+      addEventListener("DOMContentLoaded", top);
+      addEventListener("load", top);
+    }
+  } catch (err) { /* trình duyệt cũ — giữ hành vi mặc định */ }
 })();
 </script>
 <meta name="robots" content="noindex">

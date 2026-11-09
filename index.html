@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nguyễn Hoàng Minh — Project Manager | Product & Technical Development</title>
+<title>Portfolio</title>
 <meta name="description" content="Project Manager với nền tảng Product Design, UI/UX, Front-end, Business Analysis và Software Testing; quản lý đội ngũ 10–15 nhân sự từ yêu cầu đến bàn giao. Hà Nội.">
 <meta name="author" content="Nguyễn Hoàng Minh">
 <meta name="theme-color" content="#06070a">
@@ -26,12 +26,26 @@
   document.documentElement.setAttribute("data-theme", theme);
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", theme === "light" ? "#f4f1e9" : "#06070a");
+
+  /* Tải lại trang (F5, Ctrl+F5): luôn về đầu trang, không để trình duyệt
+     khôi phục vị trí cuộn cũ và bỏ #neo trên địa chỉ. */
+  try {
+    var nav = performance.getEntriesByType("navigation")[0];
+    if (nav && nav.type === "reload") {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      var top = function () { window.scrollTo(0, 0); };
+      top();
+      addEventListener("DOMContentLoaded", top);
+      addEventListener("load", top);
+    }
+  } catch (err) { /* trình duyệt cũ — giữ hành vi mặc định */ }
 })();
 </script>
 
 <!-- Thẻ chia sẻ: quyết định trang trông thế nào khi gửi qua Zalo, LinkedIn, Slack -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Nguyễn Hoàng Minh — Project Manager | Product & Technical Development">
+<meta property="og:title" content="Portfolio">
 <meta property="og:description" content="Project Manager với nền tảng Product Design, UI/UX, Front-end, Business Analysis và Testing; quản lý đội ngũ 10–15 nhân sự.">
 <meta property="og:image" content="assets/img/og-cover.svg">
 <meta name="twitter:card" content="summary_large_image">
@@ -284,7 +298,7 @@
         </li>
 
         <li class="exp__item" data-reveal>
-          <p class="exp__period" data-i18n="exp.3.period">06/2024 — 02/2025</p>
+          <p class="exp__period" data-i18n="exp.3.period">09/2023 — 02/2025</p>
           <div class="exp__main">
             <h3 class="exp__org">BELI</h3>
             <p class="exp__role" data-i18n="exp.3.role">Product Team Lead / Business Analyst</p>

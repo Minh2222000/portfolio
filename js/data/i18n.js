@@ -14,7 +14,7 @@ window.PF = window.PF || {};
 
 window.PF.i18n = {
   vi: {
-    "meta.title": "Nguyễn Hoàng Minh — Project Manager | Product & Technical Development",
+    "meta.title": "Portfolio",
     "meta.desc": "Project Manager với nền tảng Product Design, UI/UX, Front-end, Business Analysis và Software Testing; quản lý đội ngũ 10–15 nhân sự từ yêu cầu đến bàn giao. Hà Nội.",
 
     "nav.work": "Dự án",
@@ -79,7 +79,7 @@ window.PF.i18n = {
     "exp.2.b3": "Đảm nhiệm vai trò Project Manager trong các dự án, phụ trách tiếp nhận yêu cầu, lập kế hoạch, điều phối nguồn lực và kiểm soát tiến độ.",
     "exp.2.b4": "Phối hợp với khách hàng và đội ngũ phát triển nhằm đảm bảo chất lượng sản phẩm và tiến độ bàn giao.",
     "exp.3.role": "Product Team Lead / Business Analyst",
-    "exp.3.period": "06/2024 — 02/2025",
+    "exp.3.period": "09/2023 — 02/2025",
     "exp.3.b1": "Dẫn dắt đội ngũ Design, định hướng giải pháp UI/UX và kiểm soát chất lượng thiết kế.",
     "exp.3.b2": "Phân tích yêu cầu nghiệp vụ và chuyển hóa nhu cầu khách hàng thành giải pháp sản phẩm.",
     "exp.3.b3": "Phụ trách thiết kế tổng thể nền tảng Web quản lý và đặt lịch giáo viên nước ngoài dành cho các trường học.",
@@ -162,7 +162,7 @@ window.PF.i18n = {
   },
 
   en: {
-    "meta.title": "Nguyễn Hoàng Minh — Project Manager | Product & Technical Development",
+    "meta.title": "Portfolio",
     "meta.desc": "Project Manager with a background in Product Design, UI/UX, Front-end, Business Analysis, and Software Testing; leading teams of 10–15 people from requirements to handover. Hanoi.",
 
     "nav.work": "Work",
@@ -227,7 +227,7 @@ window.PF.i18n = {
     "exp.2.b3": "Acting as Project Manager on projects: taking in requirements, planning, coordinating resources, and controlling the schedule.",
     "exp.2.b4": "Working with clients and the development team to protect product quality and the delivery schedule.",
     "exp.3.role": "Product Team Lead / Business Analyst",
-    "exp.3.period": "06/2024 — 02/2025",
+    "exp.3.period": "09/2023 — 02/2025",
     "exp.3.b1": "Leading the Design team, setting the UI/UX direction, and controlling design quality.",
     "exp.3.b2": "Analysing business requirements and turning client needs into product solutions.",
     "exp.3.b3": "In charge of the overall design of a Web platform for managing and booking foreign teachers for schools.",
