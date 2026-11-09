@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dự án — Hoàng Minh</title>
+<meta name="description" content="Chi tiết một dự án: đề bài, cách làm và kết quả.">
+<meta name="theme-color" content="#06070a">
+
+<!-- Đặt giao diện TRƯỚC khi trình duyệt vẽ khung hình đầu tiên. Đoạn này phải
+     nằm inline trong <head>: để nó xuống cuối <body> cùng các module khác thì
+     trang đã kịp vẽ nền đen rồi mới nhảy sang nền sáng, loé một cái rất khó
+     chịu. Logic đầy đủ nằm ở js/modules/theme.js, đây chỉ là bản rút gọn. -->
+<script>
+(function () {
+  var theme = "dark";
+  try {
+    var saved = localStorage.getItem("pf-theme");
+    if (saved === "light" || saved === "dark") {
+      theme = saved;
+    } else if (matchMedia("(prefers-color-scheme: light)").matches) {
+      theme = "light";
+    }
+  } catch (err) { /* ẩn danh hoặc file:// — cứ để tối */ }
+  document.documentElement.setAttribute("data-theme", theme);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", theme === "light" ? "#f4f1e9" : "#06070a");
+})();
+</script>
+<meta name="robots" content="noindex">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2306070a'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='%23ffb23a' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+<a class="skip-link" href="#main">Bỏ qua phần đầu, tới nội dung chính</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="page-transition" aria-hidden="true"></div>
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"><span class="cursor__label"></span></div>
+</div>
+
+<header class="nav">
+  <a class="nav__mark" href="index.html" data-transition aria-label="Về trang chủ">HM<b>.</b></a>
+
+  <nav class="nav__links" aria-label="Mục chính">
+    <a class="nav__link" href="index.html#work" data-transition data-i18n="case.back">Quay lại danh sách</a>
+  </nav>
+
+  <div class="nav__tools">
+    <button class="theme" type="button" data-theme-toggle aria-label="Chuyển sang giao diện sáng" title="Chuyển sang giao diện sáng">
+      <svg class="theme__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.4v2.4M12 19.2v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.4 12h2.4M19.2 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
+      </svg>
+      <svg class="theme__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20.5 14.4A8.6 8.6 0 0 1 9.6 3.5a8.6 8.6 0 1 0 10.9 10.9z"/>
+      </svg>
+    </button>
+
+    <div class="lang" role="group" data-i18n-attr="aria-label:nav.langLabel" aria-label="Chọn ngôn ngữ">
+      <button class="lang__btn" type="button" data-lang="vi" aria-pressed="true">VI</button>
+      <button class="lang__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="case__hero">
+    <div class="shell">
+      <h1 class="case__title" data-case="title">Dự án</h1>
+      <p class="lead measure" data-case="summary"></p>
+
+      <div class="case__facts">
+        <div class="case__fact">
+          <span class="eyebrow" data-i18n="case.role">Vai trò</span>
+          <b data-case="role"></b>
+        </div>
+        <div class="case__fact">
+          <span class="eyebrow" data-i18n="case.year">Năm</span>
+          <b data-case="year"></b>
+        </div>
+        <div class="case__fact">
+          <span class="eyebrow" data-i18n="case.stack">Công cụ</span>
+          <div class="tag-list" data-case="stack"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="shell">
+    <figure class="case__cover" data-reveal>
+      <img data-case="cover" alt="" width="1600" height="1000">
+    </figure>
+
+    <div class="case__body">
+      <div class="mono" aria-hidden="true">#case-study</div>
+
+      <div class="stack-v">
+        <section class="case__block" data-reveal>
+          <h2 data-i18n="case.challenge">Yêu cầu</h2>
+          <p data-case="challenge"></p>
+          <!-- Tiêu chí rời rạc trong yêu cầu, khi có. Dự án không khai
+               `criteria` thì <ul> này để trống, không hiện gì. -->
+          <ul class="case__tasks" data-case="criteria"></ul>
+        </section>
+
+        <!-- Danh sách đầu việc. Chỉ dự án nào khai `tasks` trong projects.js
+             mới giữ khối này; những dự án còn lại bị dropEmptyBlocks() gỡ đi. -->
+        <section class="case__block" data-reveal>
+          <h2 data-i18n="case.tasks">Công việc</h2>
+          <ul class="case__tasks" data-case="tasks"></ul>
+        </section>
+
+        <section class="case__block" data-reveal>
+          <h2 data-i18n="case.approach">Cách làm</h2>
+          <p data-case="approach"></p>
+        </section>
+
+        <section class="case__block" data-reveal>
+          <h2 data-i18n="case.result">Kết quả</h2>
+          <p data-case="result"></p>
+        </section>
+      </div>
+    </div>
+
+    <!-- Ô số liệu do js/modules/case.js dựng -->
+    <div class="case__metrics" data-case="metrics"></div>
+
+    <div class="case__nav">
+      <a class="btn" href="index.html#work" data-transition>
+        <span aria-hidden="true">←</span>
+        <span data-i18n="case.back">Quay lại danh sách</span>
+      </a>
+
+      <a class="btn" href="#" data-case="live" data-magnetic="0.25">
+        <span data-i18n="case.live">Xem bản chạy</span>
+        <span class="btn__arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a class="btn" href="#" data-case="figma" data-magnetic="0.25">
+        <span data-i18n="case.figma">Xem file Figma</span>
+        <span class="btn__arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a class="btn" href="#" data-case="next" data-transition>
+        <span data-i18n="case.next">Dự án tiếp theo</span>
+        <span data-case="nextName" class="mono"></span>
+        <span class="btn__arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer__grid">
+    <span>© 2026 Hoàng Minh</span>
+    <span><span data-i18n="footer.clock">Giờ Hà Nội</span> <span data-clock>--:--</span></span>
+    <a class="footer__top" href="index.html" data-transition>
+      <span data-i18n="case.back">Quay lại danh sách</span>
+    </a>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/SplitText.min.js"></script>
+<script src="vendor/ScrollToPlugin.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+
+<script src="js/data/i18n.js"></script>
+<script src="js/data/projects.js"></script>
+
+<script src="js/modules/i18n.js"></script>
+<script src="js/modules/theme.js"></script>
+<script src="js/modules/smooth-scroll.js"></script>
+<script src="js/modules/cursor.js"></script>
+<script src="js/modules/nav.js"></script>
+<script src="js/modules/case.js"></script>
+<script src="js/modules/reveal.js"></script>
+<script src="js/modules/contact.js"></script>
+<script src="js/modules/transition.js"></script>
+
+<script src="js/main.js"></script>
+</body>
+</html>

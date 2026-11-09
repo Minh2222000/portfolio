@@ -1,0 +1,103 @@
+/* ==========================================================================
+   layout.css — khung trang: container, lưới, nhịp giữa các section.
+   Không đặt màu hay kiểu chữ ở đây, chỉ lo vị trí và khoảng cách.
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--page-x);
+}
+
+/* Section chuẩn: khoảng thở dọc thống nhất.
+   Mọi ngoại lệ dùng .section--flush / .section--tall thay vì ghi đè rời rạc,
+   tránh việc padding của section và của thẻ con triệt tiêu nhau. */
+.section {
+  position: relative;
+  z-index: var(--z-content);
+  padding-block: var(--section-y);
+}
+.section--flush { padding-block: 0; }
+.section--tall  { padding-block: calc(var(--section-y) * 1.5); }
+.section--full  { min-height: 100svh; display: flex; flex-direction: column; }
+
+/* Đầu mỗi section: nhãn kỹ thuật bên trái, tiêu đề bên phải.
+   Nhãn dùng đúng id của section (#work, #about…) — nó cho biết vị trí thật
+   trong tài liệu chứ không phải số thứ tự trang trí. */
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-16);
+}
+@media (min-width: 62rem) {
+  .section-head {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: var(--sp-12);
+    align-items: start;
+  }
+}
+
+.section-head__label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-top: var(--sp-2);
+}
+.section-head__label::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--border-strong);
+  flex: none;
+}
+
+/* line-height 1.08: tiêu đề tiếng Việt có dấu chồng (ế, ặ, ữ) — 0.92 làm dấu
+   của dòng dưới chạm thân chữ dòng trên khi tiêu đề xuống dòng. */
+.section-head__title { font-size: var(--t-xxl); line-height: 1.08; }
+.section-head__note  { margin-top: var(--sp-6); max-width: 46ch; }
+
+/* Tiêu đề buộc nằm gọn một dòng. text-wrap: balance ở base.css bẻ tiêu đề dài
+   thành hai dòng cho cân; khi không muốn thế thì thay vì hạ cỡ chữ cứng, cho
+   cỡ chữ co theo bề ngang cột chứa — như vậy một dòng giữ được ở mọi khổ màn
+   hình chứ không chỉ ở khổ mình vừa nhìn.
+   8.2cqi: chuỗi dài nhất đo được rộng ~11.8em với Archivo 800 / wdth 118%,
+   100 / 11.8 ≈ 8.4, bớt xuống 8.2 lấy khoảng hở phòng sai số font. */
+.section-head__col { container-type: inline-size; }
+.section-head__title--oneline {
+  white-space: nowrap;
+  font-size: min(var(--t-xxl), 8.2cqi);
+}
+
+/* --- Lưới dùng lại ------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--sp-6);
+}
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+
+/* Cột nội dung hẹp cho đoạn văn dài */
+.measure    { max-width: 58ch; }
+.measure-sm { max-width: 42ch; }
+
+/* Đường kẻ ngang mảnh, dùng ngăn các khối */
+.rule {
+  height: 1px;
+  background: var(--border);
+  border: 0;
+}
+
+.stack-v {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+.row--between { justify-content: space-between; }

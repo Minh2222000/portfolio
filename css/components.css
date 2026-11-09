@@ -1,0 +1,330 @@
+/* ==========================================================================
+   components.css — những mảnh dùng lại nhiều nơi: nav, con trỏ, nút, thẻ,
+   marquee, form, màn chuyển trang.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Preloader — đếm phần trăm rồi kéo màn đen lên
+   -------------------------------------------------------------------------- */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  background: var(--bg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: var(--page-x);
+  gap: var(--sp-6);
+}
+.preloader__name {
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  overflow: hidden;          /* để chữ trượt lên từ dưới mép */
+}
+.preloader__name span { display: block; }
+.preloader__count {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 14vw, 9rem);
+  font-weight: 500;
+  line-height: 0.8;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.preloader__bar {
+  position: absolute;
+  left: var(--page-x);
+  right: var(--page-x);
+  bottom: calc(var(--page-x) - 1px);
+  height: 1px;
+  background: var(--border-strong);
+}
+.preloader__bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent-solid);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* --------------------------------------------------------------------------
+   2. Thanh điều hướng
+   -------------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-6) var(--page-x);
+  mix-blend-mode: difference;   /* chữ tự đảo màu khi trôi qua khối sáng */
+  pointer-events: none;
+  transform: translateY(0);
+  transition: transform var(--dur-base) var(--ease-io);
+}
+.nav > * { pointer-events: auto; }
+
+/* Cuộn xuống thì nav trượt lên khỏi màn hình, cuộn ngược lại thì nó quay về.
+   Một thanh nav dán cứng trên nền tối, lại trộn màu difference, sẽ đè lên
+   chữ của mọi section nó bay qua. */
+.nav.is-hidden { transform: translateY(-115%); }
+
+.nav__mark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.nav__mark b { color: var(--accent); font-weight: inherit; }
+
+.nav__links {
+  display: none;
+  align-items: center;
+  gap: var(--sp-8);
+}
+@media (min-width: 56rem) { .nav__links { display: flex; } }
+
+.nav__link {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding-block: var(--sp-1);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.nav__link:hover,
+.nav__link.is-current { color: var(--fg); }
+.nav__link:hover::after,
+.nav__link.is-current::after { transform: scaleX(1); transform-origin: left center; }
+
+/* Nút đổi ngôn ngữ */
+.lang {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.12em;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.5rem;
+}
+.lang__btn {
+  padding: 0.15rem 0.4rem;
+  color: var(--fg-faint);
+  border-radius: 1px;
+  transition: color var(--dur-fast), background var(--dur-fast);
+}
+.lang__btn[aria-pressed="true"] { background: var(--accent-solid); color: var(--on-accent); }
+.lang__btn:hover:not([aria-pressed="true"]) { color: var(--fg); }
+
+/* Nút đổi giao diện sáng/tối — đứng cạnh nút ngôn ngữ, cùng một khung */
+.theme {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--fg-faint);
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+.theme:hover { color: var(--accent); border-color: var(--accent); }
+.theme svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Hai biểu tượng nằm chồng lên cùng một ô lưới, chỉ một cái hiện */
+  grid-area: 1 / 1;
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast);
+}
+/* Hiện biểu tượng của thứ SẼ chuyển sang, không phải thứ đang dùng:
+   đang tối thì thấy mặt trời, bấm vào là sáng. */
+.theme__moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+:root[data-theme="light"] .theme__sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+:root[data-theme="light"] .theme__moon { opacity: 1; transform: none; }
+
+/* Cụm điều khiển bên phải thanh nav */
+.nav__tools { display: flex; align-items: center; gap: var(--sp-2); }
+
+/* --------------------------------------------------------------------------
+   3. Con trỏ tuỳ biến
+   -------------------------------------------------------------------------- */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+.cursor__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--cursor-ink);
+}
+.cursor__ring {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid var(--cursor-ink);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cursor-ink);
+}
+.cursor__label { opacity: 0; }
+/* Chỉ hiện con trỏ tuỳ biến trên thiết bị thật sự có chuột */
+@media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+
+/* --------------------------------------------------------------------------
+   4. Nút
+   -------------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0.95rem 1.6rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+  isolation: isolate;
+}
+/* Nền màu trượt lên từ đáy khi rê chuột */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent-solid);
+  transform: translateY(101%);
+  transition: transform var(--dur-base) var(--ease-io);
+}
+.btn:hover { color: var(--on-accent); border-color: var(--accent-solid); }
+.btn:hover::before { transform: translateY(0); }
+.btn__arrow { transition: transform var(--dur-base) var(--ease-out); }
+.btn:hover .btn__arrow { transform: translateX(4px); }
+
+.btn--solid { background: var(--accent-solid); color: var(--on-accent); border-color: var(--accent-solid); }
+.btn--solid::before { background: var(--fg); }
+.btn--solid:hover { color: var(--bg); border-color: var(--fg); }
+
+/* --------------------------------------------------------------------------
+   5. Thẻ nhãn kỹ thuật
+   -------------------------------------------------------------------------- */
+.tag {
+  display: inline-block;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  color: var(--fg-faint);
+  white-space: nowrap;
+}
+.tag-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+/* --------------------------------------------------------------------------
+   6. Marquee — tốc độ do JS điều khiển theo vận tốc cuộn
+   -------------------------------------------------------------------------- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--sp-4);
+  border-block: 1px solid var(--border);
+  user-select: none;
+}
+.marquee + .marquee { border-top: 0; }
+.marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee__group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-8);
+  padding-right: var(--sp-8);
+  flex: none;
+}
+.marquee__item {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.6vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.marquee__item--ghost {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--fg-faint);
+}
+.marquee__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-solid);
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   8. Màn chuyển trang
+   -------------------------------------------------------------------------- */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  background: var(--bg);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+[data-reveal] { will-change: transform, opacity; }

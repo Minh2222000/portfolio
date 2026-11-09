@@ -1,0 +1,568 @@
+/* ==========================================================================
+   sections.css — kiểu dáng riêng của từng section, theo đúng thứ tự xuất
+   hiện trong index.html, rồi tới trang case study project.html.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HERO — tấm tít mở màn
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block: var(--sp-32) var(--sp-8);
+  overflow: hidden;
+}
+/* Trên màn rộng, hero là một tấm poster chiếm trọn khung nhìn — 2rem dưới đáy
+   đọc ra chật so với nhịp dọc của các section còn lại. Đây thuần tuý là khoảng
+   thở; muốn chữ sát đáy hơn thì xoá hẳn khối này. */
+@media (min-width: 62rem) {
+  .hero { padding-bottom: var(--sp-16); }
+}
+
+/* Quầng sáng chàm bám theo con trỏ. Chỉ là nền, không bao giờ chạm vào chữ. */
+.hero__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 60rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle at center,
+    var(--glow-near) 0%,
+    var(--glow-far) 38%,
+    transparent 68%
+  );
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero__inner { position: relative; z-index: 2; }
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-8);
+  color: var(--fg-faint);
+}
+.hero__pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-solid);
+  animation: pulse 2.4s ease-out infinite;
+  flex: none;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 var(--pulse-ring); }
+  70%  { box-shadow: 0 0 0 11px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__pulse { animation: none; } }
+
+.hero__title {
+  font-size: var(--t-hero);
+  font-weight: 900;
+  font-stretch: 125%;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-8);
+  /* Kéo trái một chút cho mép chữ H thẳng hàng quang học với dòng nhãn và
+     logo phía trên — chữ hoa Archivo có khoảng đệm trái khá rộng. */
+  margin-left: -0.035em;
+}
+/* Mỗi dòng nằm trong một hộp cắt, để chữ trượt lên từ dưới mép khi vào trang.
+
+   padding-top cộng margin-top âm là chỗ then chốt cho tiếng Việt: overflow
+   cắt ở mép hộp đệm, mà dấu của chữ hoa (Ồ, Ệ, Ẫ) nhô cao hơn thân chữ. Không
+   chừa khoảng này thì "HOÀNG" hiện ra thành "HOANG" và người xem chỉ thấy
+   một lỗi chính tả. */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.22em;
+  margin-top: -0.22em;
+}
+.hero__line > span { display: block; }
+/* Dòng thứ hai chỉ có viền, không có ruột. Kiểu này đặt trên chính thẻ span
+   con của .hero__line chứ không bọc thêm thẻ em: hero.js tìm các dòng bằng
+   selector ".hero__line > span", thêm một lớp thẻ vào giữa là dòng đó rơi
+   khỏi phép chọn và mất luôn hiệu ứng vào trang. */
+.hero__outline {
+  color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.18vw, 2px) var(--fg);
+}
+
+.hero__lead { max-width: 46ch; }
+.hero__lead strong { color: var(--fg); font-weight: 500; }
+
+/* --------------------------------------------------------------------------
+   ABOUT — đoạn tuyên ngôn sáng dần theo thao tác cuộn
+   -------------------------------------------------------------------------- */
+.about__grid { display: grid; gap: var(--sp-16); }
+@media (min-width: 68rem) {
+  .about__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr); gap: var(--sp-24); }
+}
+
+/* Mỗi từ bắt đầu ở màu mờ; ScrollTrigger kéo dần về màu chữ chính.
+   Đọc tới đâu, sáng tới đó. */
+.manifesto {
+  font-family: var(--font-display);
+  font-stretch: 105%;
+  font-weight: 500;
+  font-size: var(--t-xl);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--fg-faint);
+}
+.manifesto b { font-weight: 800; color: var(--accent); }
+
+.about__aside { display: flex; flex-direction: column; gap: var(--sp-8); }
+
+.portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.portrait img {
+  width: 100%;
+  height: 112%;                 /* dư chiều cao để còn chỗ trôi thị sai */
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08);
+  transition: filter var(--dur-slow) var(--ease-out);
+  will-change: transform;
+}
+.portrait:hover img { filter: grayscale(0) contrast(1); }
+.portrait__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--sp-3) var(--sp-4);
+  background: linear-gradient(to top, var(--photo-scrim), transparent);
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  color: var(--photo-fg);
+}
+
+/* Sổ tay ghi chép — mỗi dòng một mẩu sự thật ngắn */
+.notes { display: flex; flex-direction: column; }
+.notes__row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--sp-4);
+  padding-block: var(--sp-4);
+  border-top: 1px solid var(--border);
+  align-items: baseline;
+}
+.notes__row:last-child { border-bottom: 1px solid var(--border); }
+.notes__k {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.notes__v { font-size: var(--t-sm); color: var(--fg-muted); }
+
+/* --------------------------------------------------------------------------
+   WORK — danh sách dự án, ảnh bám con trỏ
+   -------------------------------------------------------------------------- */
+.work { position: relative; }
+.work__list {
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Các hàng vượt quá số hiển thị ban đầu. JS gắn class này lúc dựng danh sách;
+   không có JS thì class không tồn tại và mọi hàng đều hiện.
+
+   Viết gộp hai class lên cùng một phần tử để tăng độ đặc hiệu. Nếu chỉ viết
+   .work__row--more thì nó ngang cơ với .work__row, và vì .work__row nằm bên
+   dưới trong file nên luật display:grid của nó thắng — mọi hàng hiện hết. */
+.work__row.work__row--more { display: none; }
+.work__list.is-expanded .work__row.work__row--more { display: grid; }
+
+.work__actions {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--sp-12);
+}
+.work__more[hidden] { display: none; }
+.work__more-num {
+  color: var(--accent);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.btn:hover .work__more-num { color: inherit; }
+
+.work__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-2);
+  padding-block: var(--sp-8);
+  border-top: 1px solid var(--border);
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+/* Đường kẻ đáy đặt ở khung chứa chứ không ở hàng cuối. Hàng cuối cùng có thể
+   đang bị ẩn sau nút "Xem thêm", khi đó :last-child trỏ vào một hàng vô hình
+   và danh sách mất hẳn cạnh dưới. */
+@media (min-width: 62rem) {
+  .work__row {
+    grid-template-columns: 5rem minmax(0, 1fr) 13rem 3rem;
+    gap: var(--sp-8);
+    align-items: center;
+    padding-block: var(--sp-6);
+  }
+}
+
+/* Vệt sáng quét ngang khi rê chuột — nằm dưới chữ */
+.work__row::before {
+  content: '';
+  position: absolute;
+  inset: 0 calc(var(--page-x) * -0.5);
+  background: linear-gradient(90deg, var(--accent-wash), transparent 62%);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.work__row:hover::before { opacity: 1; }
+.work__row:hover { border-color: var(--border-strong); }
+
+.work__year {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.12em;
+  color: var(--fg-faint);
+}
+.work__title {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  transition: color var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.work__row:hover .work__title { color: var(--accent); }
+@media (min-width: 62rem) {
+  .work__row:hover .work__title { transform: translateX(var(--sp-4)); }
+}
+.work__role {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.work__go {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--fg-faint);
+  justify-self: end;
+  transition: transform var(--dur-base) var(--ease-out), color var(--dur-base);
+}
+.work__row:hover .work__go { color: var(--accent); transform: translate(4px, -4px); }
+
+/* Cả hàng là một liên kết phủ kín, giữ ngữ nghĩa mà không lồng thẻ */
+.work__link { position: absolute; inset: 0; z-index: 3; }
+.work__link:focus-visible { outline-offset: -4px; }
+
+/* Ảnh xem trước bám con trỏ, chỉ có trên máy có chuột.
+
+   Ảnh nguồn giờ là ảnh mockup đã tách nền (xem leadImage() trong
+   js/modules/work.js) — phần lớn khung hình của nó trong suốt, chỉ có cái
+   máy nổi giữa. Khung này lại là position: fixed, trôi tự do phía TRÊN nội
+   dung trang chứ không nằm trong dòng chảy như .case__shot, nên phải tự
+   mang nền + viền riêng — không thì phần trong suốt của ảnh để lộ thẳng chữ
+   và ảnh của mục đang cuộn bên dưới, trông như một lỗi hiển thị. */
+.work__preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 21rem;
+  aspect-ratio: 4 / 3;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  will-change: transform;
+}
+.work__preview img { width: 100%; height: 100%; object-fit: cover; }
+@media (hover: none), (pointer: coarse), (max-width: 61.99rem) {
+  .work__preview { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   CAPABILITIES — ba việc thật sự làm được
+   -------------------------------------------------------------------------- */
+.cap {
+  position: relative;
+  padding: var(--sp-8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  overflow: hidden;
+  transition: border-color var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.cap:hover { border-color: var(--border-strong); transform: translateY(-4px); }
+.cap__k {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cap__title {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 108%;
+  line-height: 1.05;
+}
+.cap__body { font-size: var(--t-sm); color: var(--fg-muted); }
+.cap__list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: auto; }
+.cap__list li {
+  display: flex;
+  gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.08em;
+  color: var(--fg-faint);
+}
+.cap__list li::before { content: '—'; color: var(--accent); }
+
+/* --------------------------------------------------------------------------
+   CONTACT
+   -------------------------------------------------------------------------- */
+.contact__mail {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 110%;
+  /* Cỡ chữ chọn để một địa chỉ thư dài vẫn nằm gọn một dòng trên màn hình
+     máy tính. To hơn nữa thì nó vỡ dòng ngay giữa tên tài khoản, và một địa
+     chỉ thư bị cắt đôi thì trông như lỗi chứ không như thiết kế. */
+  font-size: clamp(1.1rem, 2.6vw, 2.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+  margin-block: var(--sp-3) var(--sp-8);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.contact__mail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.12em;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-solid);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-base) var(--ease-io);
+}
+.contact__mail:hover { color: var(--accent); }
+.contact__mail:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+.contact__socials { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+  border-top: 1px solid var(--border);
+  padding-block: var(--sp-8);
+}
+.footer__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6);
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  color: var(--fg-faint);
+}
+.footer__top {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  transition: color var(--dur-fast);
+}
+.footer__top:hover { color: var(--accent); }
+
+/* --------------------------------------------------------------------------
+   PROJECT.HTML — trang case study
+   -------------------------------------------------------------------------- */
+.case__hero {
+  padding-block: calc(var(--sp-32) + var(--sp-8)) var(--sp-16);
+  border-bottom: 1px solid var(--border);
+}
+.case__title {
+  font-size: var(--t-xxl);
+  font-weight: 900;
+  font-stretch: 122%;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  margin-block: var(--sp-4) var(--sp-8);
+}
+.case__facts {
+  display: grid;
+  gap: var(--sp-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  padding-top: var(--sp-8);
+  border-top: 1px solid var(--border);
+}
+.case__fact { display: flex; flex-direction: column; gap: var(--sp-2); }
+.case__fact b { font-size: var(--t-md); font-weight: 500; color: var(--fg); }
+
+.case__cover {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  margin-block: var(--sp-16);
+}
+.case__cover img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Bộ nhiều ảnh cho một dự án (trường `gallery` trong projects.js). Ảnh đầu ăn
+   trọn chiều ngang, những ảnh sau chia đôi hàng dưới.
+
+   Ảnh để CAO TỰ NHIÊN, không ép tỉ lệ và không object-fit: đây là ảnh chụp
+   thiết bị có nền riêng, cắt cạnh nào cũng là cắt vào bố cục của chính bức
+   ảnh. Đổi lại, ảnh trong cùng một bộ nên cùng tỉ lệ, nếu không hàng dưới sẽ
+   so le. */
+.case__shots {
+  display: grid;
+  gap: var(--sp-4);
+  grid-template-columns: repeat(2, 1fr);
+  margin-block: var(--sp-16);
+}
+
+/* Bề rộng ô tính theo HƯỚNG của ảnh, không theo vị trí trong mảng. Bộ ảnh có
+   thể trộn ảnh chụp màn hình điện thoại (9:16) với mockup máy tính (4:3) —
+   nhét cả hai vào ô rộng bằng nhau thì hoặc cái điện thoại cao lênh khênh,
+   hoặc cái màn hình bé đến mức không đọc nổi chữ trong ảnh. */
+.case__shot       { grid-column: span 2; }   /* ảnh ngang: trọn hàng */
+.case__shot--lead { grid-column: span 2; }
+.case__shot--tall { grid-column: span 1; }   /* ảnh dọc: hai cái một hàng */
+
+@media (min-width: 56rem) {
+  .case__shots      { grid-template-columns: repeat(6, 1fr); }
+  .case__shot       { grid-column: span 3; }   /* ngang: hai cái một hàng */
+  .case__shot--lead { grid-column: span 6; }   /* ảnh dẫn: trọn chiều ngang */
+  .case__shot--tall { grid-column: span 2; }   /* dọc: ba cái một hàng */
+}
+
+.case__shot {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.case__shot img { display: block; width: 100%; height: auto; }
+
+/* Ảnh đã tách nền thì gỡ luôn khung. Giữ viền với nền khối ở đây là nhốt cái
+   máy vừa được thả ra vào đúng một cái hộp khác — mất sạch ý nghĩa của việc
+   tách nền. Class gắn theo TỪNG ảnh, vì một bộ có thể trộn ảnh đã tách nền với
+   ảnh chụp còn nguyên phông (xem renderCover trong js/modules/case.js). */
+.case__shot--cutout {
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.case__body { display: grid; gap: var(--sp-12); }
+@media (min-width: 68rem) {
+  .case__body { grid-template-columns: 12rem minmax(0, 1fr); gap: var(--sp-16); }
+}
+.case__block { display: grid; gap: var(--sp-4); }
+.case__block h2 { font-size: var(--t-lg); font-stretch: 108%; }
+.case__block p { color: var(--fg-muted); max-width: 62ch; }
+
+/* Danh sách đầu việc trong khối "Công việc". base.css đã tắt list-style của
+   mọi ul, nên dấu đầu dòng phải tự vẽ — và vẽ tay thì lấy luôn được vàng natri
+   của trang thay vì chấm tròn mặc định xám xịt của trình duyệt.
+
+   top: 0.62em canh chấm theo DÒNG CHỮ chứ không theo cả thẻ <li>: câu nào dài
+   xuống hai dòng thì chấm vẫn nằm ngang dòng đầu, không trôi xuống giữa. */
+.case__tasks {
+  display: grid;
+  gap: var(--sp-3);
+  max-width: 62ch;
+}
+.case__tasks li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--fg-muted);
+}
+.case__tasks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--accent-solid);
+}
+
+.case__metrics {
+  display: grid;
+  gap: var(--sp-8);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  padding-block: var(--sp-12);
+  border-block: 1px solid var(--border);
+  margin-block: var(--sp-16) var(--sp-8);
+}
+.case__metric b {
+  display: block;
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--sp-2);
+}
+.case__metric span {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+.case__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  padding-block: var(--sp-12);
+  border-top: 1px solid var(--border);
+}

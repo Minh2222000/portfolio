@@ -1,0 +1,145 @@
+/* ==========================================================================
+   base.css — reset, nạp font, kiểu chữ nền tảng, lớp phủ hạt phim.
+   ========================================================================== */
+
+/* Font được nạp bằng thẻ <link> trong HTML (assets/fonts/fonts.css) chứ không
+   dùng @import ở đây — @import xếp hàng thêm một vòng request, làm chậm lần
+   vẽ đầu tiên. */
+
+/* --- Reset ---------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; padding: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;          /* Lenis lo phần cuộn mượt, không dùng smooth của trình duyệt */
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--t-base);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* --- Kiểu chữ ------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* Archivo là font biến thiên: trục wdth kéo chữ rộng ra như tít phim.
+   Chỉ dùng cho tiêu đề lớn, chữ nhỏ mà giãn rộng sẽ khó đọc. */
+.u-wide  { font-stretch: 118%; }
+.u-wider { font-stretch: 125%; }
+
+p { text-wrap: pretty; }
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+.lead {
+  font-size: var(--t-md);
+  line-height: 1.65;
+  color: var(--fg-muted);
+  font-weight: 300;
+}
+
+::selection { background: var(--accent-solid); color: var(--on-accent); }
+
+/* --- Bàn phím ------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+.skip-link {
+  position: fixed;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  z-index: 200;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--accent-solid);
+  color: var(--on-accent);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* Chỉ đọc bằng trình đọc màn hình */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Hạt phim ------------------------------------------------------------- */
+/* Lớp nhiễu tĩnh phủ toàn trang. Ảnh SVG nhúng sẵn nên không tốn request,
+   animation dịch chuyển tạo cảm giác phim nhựa đang chạy. */
+.grain {
+  position: fixed;
+  inset: -150%;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.7s steps(3) infinite;
+  will-change: transform;
+}
+
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(-2%, 1.5%); }
+  66%  { transform: translate(1.5%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+}
+
+/* --- Trạng thái tải ------------------------------------------------------- */
+/* Khoá cuộn khi preloader còn chạy. JS gỡ class này khi xong. */
+body.is-loading { overflow: hidden; height: 100vh; }

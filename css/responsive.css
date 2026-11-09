@@ -1,0 +1,94 @@
+/* ==========================================================================
+   responsive.css — điều chỉnh cho màn nhỏ, thiết bị cảm ứng, in ấn, và
+   trường hợp JavaScript không chạy. Nạp SAU CÙNG để ghi đè được các file
+   trước mà không cần tăng độ đặc hiệu của selector.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Máy tính bảng và nhỏ hơn
+   -------------------------------------------------------------------------- */
+@media (max-width: 61.99rem) {
+  .hero { padding-block: var(--sp-24) var(--sp-12); }
+  .hero__title { margin-bottom: var(--sp-6); }
+  .section-head { margin-bottom: var(--sp-12); }
+
+  /* Hàng dự án xếp dọc: tiêu đề trước, dữ liệu phụ sau */
+  .work__row { padding-block: var(--sp-6); }
+  .work__year { order: -1; }
+  .work__go { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Điện thoại
+   -------------------------------------------------------------------------- */
+@media (max-width: 40rem) {
+  .preloader { flex-direction: column; align-items: flex-start; justify-content: flex-end; }
+  .preloader__count { align-self: flex-end; }
+
+  .notes__row { grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--sp-3); }
+  .cap { padding: var(--sp-6); }
+}
+
+/* --------------------------------------------------------------------------
+   Thiết bị cảm ứng — bỏ mọi thứ phụ thuộc con trỏ
+   -------------------------------------------------------------------------- */
+@media (hover: none), (pointer: coarse) {
+  .hero__glow { opacity: 0.55; }
+  /* Hiệu ứng hover trên cảm ứng hay bị "dính" sau khi chạm, nên tắt hẳn */
+  .work__row:hover::before { opacity: 0; }
+  .work__row:hover .work__title { transform: none; color: var(--fg); }
+  .cap:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Màn hình thấp (laptop 13 inch, cửa sổ bị thu nhỏ)
+   -------------------------------------------------------------------------- */
+@media (max-height: 40rem) and (min-width: 62rem) {
+  .hero { min-height: auto; padding-block: var(--sp-32) var(--sp-12); }
+}
+
+/* --------------------------------------------------------------------------
+   Giảm chuyển động — hạ mọi hiệu ứng nền xuống mức tĩnh.
+   JS đọc riêng cờ này qua gsap.matchMedia để không tạo scrub và pin.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .grain { opacity: 0.03; }
+  .hero__glow { filter: none; }
+  .cap:hover { transform: none; }
+  .work__row:hover .work__title { transform: none; }
+  .marquee__track { transform: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Không có JavaScript — nội dung phải đọc được đầy đủ.
+   Trang gắn class "no-js" ở thẻ <html>; main.js gỡ ra ngay khi chạy được.
+   -------------------------------------------------------------------------- */
+.no-js .preloader { display: none; }
+.no-js [data-reveal] { opacity: 1 !important; transform: none !important; }
+.no-js .manifesto { color: var(--fg); }
+.no-js .cursor,
+.no-js .work__preview { display: none; }
+
+/* --------------------------------------------------------------------------
+   In ra giấy — nhà tuyển dụng thỉnh thoảng in trang portfolio ra để mang họp
+   -------------------------------------------------------------------------- */
+@media print {
+  .preloader, .nav, .cursor, .grain,
+  .page-transition, .work__preview, .hero__glow, .marquee { display: none !important; }
+
+  /* Ép cả hai giao diện về một bảng màu mực đen trên giấy trắng — phải chọn
+     kèm [data-theme] để thắng độ ưu tiên của khối giao diện sáng trong
+     tokens.css, nếu không thì in trang lúc đang để nền giấy sẽ ra sai màu. */
+  :root,
+  :root[data-theme="light"],
+  :root[data-theme="dark"] {
+    --bg: #fff; --surface: #fff;
+    --fg: #000; --fg-muted: #333; --fg-faint: #555;
+    --accent: #000; --accent-solid: #ddd; --on-accent: #000;
+    --border: #ccc; --border-strong: #999;
+    --accent-wash: transparent; --glow-near: transparent; --glow-far: transparent;
+  }
+  body { background: #fff; color: #000; }
+  .section { padding-block: 1.5rem; break-inside: avoid; }
+  a::after { content: ' (' attr(href) ')'; font-size: 0.7em; color: #666; }
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Chỗ ảnh chân dung">
+  <defs>
+    <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12151C"/><stop offset="100%" stop-color="#06070A"/>
+    </linearGradient>
+    <filter id="pn"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/><feColorMatrix type="saturate" values="0"/></filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#pg)"/>
+  <circle cx="400" cy="390" r="150" fill="none" stroke="#FFB23A" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M170 1000 C 190 720, 300 610, 400 610 C 500 610, 610 720, 630 1000 Z" fill="none" stroke="#6D7686" stroke-opacity="0.45" stroke-width="2"/>
+  <line x1="0" y1="610" x2="800" y2="610" stroke="#FFB23A" stroke-opacity="0.25"/>
+  <rect width="800" height="1000" filter="url(#pn)" opacity="0.06"/>
+  <text x="60" y="930" fill="#6D7686" font-family="JetBrains Mono, Consolas, monospace" font-size="21" letter-spacing="4">ĐẶT ẢNH CHÂN DUNG VÀO ĐÂY</text>
+</svg>
